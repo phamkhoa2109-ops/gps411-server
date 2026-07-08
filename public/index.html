@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GPS411 Tracker</title>
+
+  <!-- Leaflet.js - Ban do mien phi, khong can API key -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Thanh tieu de ---- */
+    header {
+      background: linear-gradient(135deg, #1a1f2e, #16213e);
+      border-bottom: 1px solid #2d3748;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #63b3ed, #68d391);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    #status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #fc8181;
+      display: inline-block;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+    #status-dot.online { background: #68d391; }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.4; }
+    }
+
+    /* ---- Layout chinh ---- */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ---- Ban do ---- */
+    #map {
+      flex: 1;
+      z-index: 1;
+    }
+
+    /* ---- Panel ben phai ---- */
+    .panel {
+      width: 280px;
+      background: #1a1f2e;
+      border-left: 1px solid #2d3748;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .card {
+      background: #16213e;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      margin: 12px;
+      padding: 14px;
+    }
+    .card-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #718096;
+      margin-bottom: 10px;
+    }
+
+    /* ---- Trang thai he thong ---- */
+    .state-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .state-TRACKING  { background: #2b6cb0; color: #bee3f8; }
+    .state-STANDBY   { background: #276749; color: #c6f6d5; }
+    .state-ALERT_L1  { background: #744210; color: #fefcbf; }
+    .state-ALERT_L2  { background: #742a2a; color: #fed7d7; animation: blink 1s infinite; }
+    .state-UNKNOWN   { background: #2d3748; color: #a0aec0; }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.6; }
+    }
+
+    /* ---- Chi so ---- */
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #2d374840;
+    }
+    .metric:last-child { border-bottom: none; }
+    .metric-label { font-size: 0.78rem; color: #718096; }
+    .metric-value { font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .metric-value.highlight { color: #63b3ed; font-size: 1.1rem; }
+
+    /* ---- Toa do ---- */
+    .coord-text {
+      font-size: 0.75rem;
+      color: #a0aec0;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+
+    /* ---- Nut ARM / DISARM ---- */
+    .btn-group { display: flex; gap: 8px; flex-direction: column; }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-arm {
+      background: linear-gradient(135deg, #276749, #2f855a);
+      color: #c6f6d5;
+    }
+    .btn-arm:hover { background: linear-gradient(135deg, #2f855a, #38a169); }
+    .btn-disarm {
+      background: linear-gradient(135deg, #742a2a, #9b2c2c);
+      color: #fed7d7;
+    }
+    .btn-disarm:hover { background: linear-gradient(135deg, #9b2c2c, #c53030); }
+
+    /* ---- Thong bao ---- */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      transition: transform 0.3s;
+      z-index: 9999;
+      border: 1px solid #4a5568;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ---- Cap nhat cuoi ---- */
+    #last-update {
+      font-size: 0.7rem;
+      color: #4a5568;
+      text-align: center;
+      padding: 8px;
+    }
+
+    /* ---- Responsive mobile ---- */
+    @media (max-width: 600px) {
+      .panel { width: 100%; height: 45vh; border-left: none; border-top: 1px solid #2d3748; }
+      .main  { flex-direction: column; }
+      #map   { flex: none; height: 55vh; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛰️ GPS411 TRACKER</h1>
+  <div style="display:flex;align-items:center;font-size:0.8rem;color:#718096;">
+    <span id="status-dot"></span>
+    <span id="status-text">Đang kết nối...</span>
+  </div>
+</header>
+
+<div class="main">
+  <!-- Ban do -->
+  <div id="map"></div>
+
+  <!-- Panel thong tin -->
+  <div class="panel">
+
+    <!-- Trang thai -->
+    <div class="card">
+      <div class="card-title">Trạng thái hệ thống</div>
+      <span class="state-badge state-UNKNOWN" id="state-badge">UNKNOWN</span>
+      <div style="margin-top:8px;">
+        <div class="metric">
+          <span class="metric-label">Chế độ bảo vệ</span>
+          <span class="metric-value" id="armed-val">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GPS Info -->
+    <div class="card">
+      <div class="card-title">Thông số GPS</div>
+      <div class="metric">
+        <span class="metric-label">Tốc độ</span>
+        <span class="metric-value highlight" id="speed-val">— km/h</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Tín hiệu</span>
+        <span class="metric-value" id="gps-fix">—</span>
+      </div>
+      <div style="margin-top:10px;">
+        <div class="metric-label" style="margin-bottom:6px;">Tọa độ</div>
+        <div class="coord-text" id="coord-text">Chưa có dữ liệu</div>
+      </div>
+    </div>
+
+    <!-- Dieu khien tu xa -->
+    <div class="card">
+      <div class="card-title">Điều khiển từ xa</div>
+      <div class="btn-group">
+        <button class="btn btn-arm" onclick="sendCommand('ARM')">
+          🔒 Kích hoạt bảo vệ (ARM)
+        </button>
+        <button class="btn btn-disarm" onclick="sendCommand('DISARM')">
+          🔓 Tắt bảo vệ (DISARM)
+        </button>
+      </div>
+      <div style="margin-top:10px;font-size:0.72rem;color:#4a5568;line-height:1.5;">
+        ⚠️ Lệnh sẽ được gửi tới thiết bị vào lần kết nối tiếp theo (≤10 giây)
+      </div>
+    </div>
+
+    <div id="last-update">Chưa nhận dữ liệu</div>
+  </div>
+</div>
+
+<!-- Toast thong bao -->
+<div id="toast"></div>
+
+<script>
+// ============================================================
+// Khoi tao ban do Leaflet.js
+// ============================================================
+const map = L.map('map', { zoomControl: true }).setView([16.0, 106.0], 6);
+
+// Lop ban do OpenStreetMap (mien phi)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 19
+}).addTo(map);
+
+// Bieu tuong dau cham GPS
+const gpsIcon = L.divIcon({
+  className: '',
+  html: `<div style="
+    width:16px;height:16px;
+    background:#fc8181;
+    border:3px solid #fff;
+    border-radius:50%;
+    box-shadow:0 0 10px rgba(252,129,129,0.8);
+  "></div>`,
+  iconSize: [16, 16],
+  iconAnchor: [8, 8]
+});
+
+let marker  = null;  // Dau cham vi tri hien tai
+let polyline = null; // Duong di lich su
+
+// ============================================================
+// Cap nhat ban do voi du lieu moi
+// ============================================================
+function updateMap(latest, history) {
+  if (!latest.valid) return;
+
+  const latlng = [latest.lat, latest.lng];
+
+  // Cap nhat hoac tao moi dau cham
+  if (!marker) {
+    marker = L.marker(latlng, { icon: gpsIcon }).addTo(map);
+    map.setView(latlng, 16); // Zoom vao vi tri lan dau
+  } else {
+    marker.setLatLng(latlng);
+  }
+
+  // Popup hien thi thong tin
+  marker.bindPopup(`
+    <b>GPS411 Tracker</b><br>
+    Lat: ${latest.lat.toFixed(6)}<br>
+    Lng: ${latest.lng.toFixed(6)}<br>
+    Tốc độ: ${latest.speed.toFixed(1)} km/h<br>
+    Trạng thái: ${latest.state}
+  `);
+
+  // Ve duong di lich su
+  if (history.length > 1) {
+    const points = history.map(h => [h.lat, h.lng]);
+    if (polyline) map.removeLayer(polyline);
+    polyline = L.polyline(points, {
+      color: '#63b3ed',
+      weight: 3,
+      opacity: 0.7,
+      dashArray: '5, 5'
+    }).addTo(map);
+  }
+}
+
+// ============================================================
+// Cap nhat panel thong tin ben phai
+// ============================================================
+function updatePanel(latest) {
+  // Trang thai
+  const badge = document.getElementById('state-badge');
+  badge.textContent = latest.state;
+  badge.className   = `state-badge state-${latest.state}`;
+
+  // Bao ve
+  const armedEl = document.getElementById('armed-val');
+  armedEl.textContent = latest.armed ? '🔒 Đang bảo vệ' : '🔓 Tắt';
+  armedEl.style.color = latest.armed ? '#68d391' : '#fc8181';
+
+  // Toc do
+  document.getElementById('speed-val').textContent =
+    latest.valid ? `${latest.speed.toFixed(1)} km/h` : '— km/h';
+
+  // GPS Fix
+  const fixEl = document.getElementById('gps-fix');
+  fixEl.textContent = latest.valid ? '✅ Đã định vị' : '❌ Chưa bắt sóng';
+  fixEl.style.color = latest.valid ? '#68d391' : '#fc8181';
+
+  // Toa do
+  document.getElementById('coord-text').textContent = latest.valid
+    ? `${latest.lat.toFixed(6)}°N\n${latest.lng.toFixed(6)}°E`
+    : 'Chưa có tín hiệu GPS';
+
+  // Thoi gian cap nhat
+  if (latest.updated) {
+    const t = new Date(latest.updated);
+    document.getElementById('last-update').textContent =
+      `Cập nhật lúc: ${t.toLocaleTimeString('vi-VN')}`;
+  }
+}
+
+// ============================================================
+// Goi API lay du lieu moi moi 5 giay
+// ============================================================
+let isOnline = false;
+
+async function fetchStatus() {
+  try {
+    const res  = await fetch('/api/status');
+    const data = await res.json();
+
+    updateMap(data.latest, data.history);
+    updatePanel(data.latest);
+
+    // Hien thi online
+    if (!isOnline) {
+      isOnline = true;
+      document.getElementById('status-dot').classList.add('online');
+      document.getElementById('status-text').textContent = 'Đang kết nối';
+    }
+  } catch (e) {
+    isOnline = false;
+    document.getElementById('status-dot').classList.remove('online');
+    document.getElementById('status-text').textContent = 'Mất kết nối';
+  }
+}
+
+// Goi ngay khi load trang, sau do moi 5 giay
+fetchStatus();
+setInterval(fetchStatus, 5000);
+
+// ============================================================
+// Gui lenh ARM / DISARM
+// ============================================================
+async function sendCommand(cmd) {
+  try {
+    const res  = await fetch('/api/command', {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ cmd })
+    });
+    const data = await res.json();
+
+    showToast(data.success
+      ? `✅ Đã gửi lệnh ${cmd} — chờ thiết bị nhận...`
+      : `❌ Lỗi: ${data.message}`
+    );
+  } catch (e) {
+    showToast('❌ Không thể kết nối đến server');
+  }
+}
+
+// ============================================================
+// Thong bao toast
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
