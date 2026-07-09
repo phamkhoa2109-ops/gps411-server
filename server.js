@@ -96,8 +96,9 @@ app.get('/api/status', (req, res) => {
 // ============================================================
 app.post('/api/command', (req, res) => {
     const { cmd } = req.body;
+    const validCmds = ['ARM', 'DISARM', 'HORN_ON', 'HORN_OFF'];
 
-    if (cmd === 'ARM' || cmd === 'DISARM') {
+    if (validCmds.includes(cmd)) {
         pendingCommand = cmd;
         console.log(`[COMMAND] Lenh moi: ${cmd} - Cho STM32 ket noi de nhan...`);
         res.json({ success: true, message: `Lenh ${cmd} da duoc dat, cho STM32 ket noi...` });
