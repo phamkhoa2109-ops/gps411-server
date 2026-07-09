@@ -27,11 +27,12 @@ let latestData = {
     speed    : 0,
     state    : 'UNKNOWN',
     armed    : 0,
+    horn     : 0,
     updated  : null,   // Thoi diem cap nhat cuoi
     valid    : false   // GPS co fix chua
 };
 
-let pendingCommand = 'NONE'; // Lenh dang cho STM32: 'NONE' | 'ARM' | 'DISARM'
+let pendingCommand = 'NONE'; // Lenh dang cho STM32: 'NONE' | 'ARM' | 'DISARM' | 'HORN_ON' | 'HORN_OFF'
 
 let history = []; // Lich su 50 diem GPS gan nhat
 const MAX_HISTORY = 50;
@@ -40,11 +41,11 @@ const MAX_HISTORY = 50;
 // POST /api/data
 // STM32 gui du lieu GPS len day moi 10 giay
 // Body: { "lat": 10.123, "lng": 106.456, "speed": 0.0,
-//         "state": "STANDBY", "armed": 1 }
+//         "state": "STANDBY", "armed": 1, "horn": 0 }
 // Server tra ve lenh dieu khien: { "cmd": "NONE" }
 // ============================================================
 app.post('/api/data', (req, res) => {
-    const { lat, lng, speed, state, armed } = req.body;
+    const { lat, lng, speed, state, armed, horn } = req.body;
 
     // Cap nhat du lieu moi nhat
     latestData = {
@@ -53,6 +54,7 @@ app.post('/api/data', (req, res) => {
         speed  : parseFloat(speed) || 0,
         state  : state  || 'UNKNOWN',
         armed  : armed  ? 1 : 0,
+        horn   : horn   ? 1 : 0,
         updated: new Date().toISOString(),
         valid  : (parseFloat(lat) !== 0 && parseFloat(lng) !== 0)
     };
@@ -69,7 +71,7 @@ app.post('/api/data', (req, res) => {
         }
     }
 
-    console.log(`[${new Date().toLocaleTimeString('vi-VN')}] GPS: ${lat}, ${lng} | ${speed} km/h | ${state} | armed=${armed}`);
+    console.log(`[${new Date().toLocaleTimeString('vi-VN')}] GPS: ${lat}, ${lng} | ${speed} km/h | ${state} | armed=${armed} | horn=${horn ? 'ON' : 'OFF'}`);
 
     // Tra ve lenh cho STM32, sau do reset lenh ve NONE
     const cmd = pendingCommand;

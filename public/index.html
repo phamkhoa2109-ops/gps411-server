@@ -226,6 +226,10 @@
           <span class="metric-label">Chế độ bảo vệ</span>
           <span class="metric-value" id="armed-val">—</span>
         </div>
+        <div class="metric">
+          <span class="metric-label">Còi</span>
+          <span class="metric-value" id="horn-val">—</span>
+        </div>
       </div>
     </div>
 
@@ -365,6 +369,11 @@ function updatePanel(latest) {
   const armedEl = document.getElementById('armed-val');
   armedEl.textContent = latest.armed ? '🔒 Đang bảo vệ' : '🔓 Tắt';
   armedEl.style.color = latest.armed ? '#68d391' : '#fc8181';
+
+  // Coi
+  const hornEl = document.getElementById('horn-val');
+  hornEl.textContent = latest.horn ? '📢 Đang kêu' : '🔇 Tắt';
+  hornEl.style.color = latest.horn ? '#ed8936' : '#a0aec0';
 
   // Toc do
   document.getElementById('speed-val').textContent =
