@@ -248,6 +248,15 @@
         <div class="metric-label" style="margin-bottom:6px;">Tọa độ</div>
         <div class="coord-text" id="coord-text">Chưa có dữ liệu</div>
       </div>
+      <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2d374840;padding-top:8px;">
+        <label style="font-size:0.78rem;color:#a0aec0;cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <input type="checkbox" id="auto-follow-chk" checked onchange="toggleAutoFollow(this.checked)"/>
+          🎯 Bám theo xe
+        </label>
+        <button onclick="centerOnVehicle()" style="background:#2b6cb0;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:0.75rem;cursor:pointer;font-weight:600;">
+          📍 Về giữa
+        </button>
+      </div>
     </div>
 
     <!-- Dieu khien tu xa -->
@@ -315,8 +324,36 @@ const gpsIcon = L.divIcon({
   iconAnchor: [8, 8]
 });
 
-let marker  = null;  // Dau cham vi tri hien tai
+let marker   = null; // Dau cham vi tri hien tai
 let polyline = null; // Duong di lich su
+let autoFollow = true;
+
+// Khi nguoi dung tu keo ban do -> tam thoi tat auto follow de khong bi giat ve xe
+map.on('dragstart', () => {
+  if (autoFollow) {
+    autoFollow = false;
+    const chk = document.getElementById('auto-follow-chk');
+    if (chk) chk.checked = false;
+  }
+});
+
+function toggleAutoFollow(val) {
+  autoFollow = val;
+  if (autoFollow && marker) {
+    map.panTo(marker.getLatLng(), { animate: true, duration: 0.8 });
+  }
+}
+
+function centerOnVehicle() {
+  if (marker) {
+    autoFollow = true;
+    const chk = document.getElementById('auto-follow-chk');
+    if (chk) chk.checked = true;
+    map.setView(marker.getLatLng(), 16, { animate: true });
+  } else {
+    showToast('⚠️ Chưa có tín hiệu GPS để định vị');
+  }
+}
 
 // ============================================================
 // Cap nhat ban do voi du lieu moi
@@ -332,6 +369,9 @@ function updateMap(latest, history) {
     map.setView(latlng, 16); // Zoom vao vi tri lan dau
   } else {
     marker.setLatLng(latlng);
+    if (autoFollow) {
+      map.panTo(latlng, { animate: true, duration: 0.8 });
+    }
   }
 
   // Popup hien thi thong tin
