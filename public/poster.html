@@ -47,8 +47,8 @@
     }
 
     @page {
-      size: 1189mm 841mm; /* Chuẩn chính xác kích thước A0 ngang (Landscape) */
-      margin: 15mm;
+      size: landscape;
+      margin: 0; /* Zero margin edge-to-edge poster filling */
     }
 
     * {
@@ -161,6 +161,8 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
     }
 
     body.light-theme .poster-container {
@@ -173,7 +175,7 @@
       background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.18), transparent 45%),
                   radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.18), transparent 45%),
                   var(--bg-poster);
-      padding: 36px 44px;
+      padding: 32px 40px;
       border-bottom: 2px solid var(--border-color);
     }
 
@@ -181,7 +183,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .badge {
@@ -201,35 +203,36 @@
 
     .poster-header h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 900;
       line-height: 1.15;
       letter-spacing: -0.8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: linear-gradient(135deg, var(--text-main) 65%, var(--accent-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .poster-header .subtitle {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* CLEAN 2-COLUMN LOGICAL FLOW (No jumping around, wide readability) */
+    /* CLEAN 2-COLUMN LOGICAL FLOW */
     .poster-body {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 28px;
-      padding: 32px 36px;
+      gap: 24px;
+      padding: 28px 36px;
       width: 100%;
+      flex: 1;
     }
 
     .poster-column {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
       min-width: 0;
     }
 
@@ -241,12 +244,14 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 24px;
+      padding: 22px;
       position: relative;
       transition: border-color 0.2s;
       min-width: 0;
       width: 100%;
       max-width: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .bento-card:hover {
@@ -255,12 +260,12 @@
 
     .card-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       color: var(--accent-cyan);
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 10px;
@@ -268,7 +273,7 @@
 
     .card-title .number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent-cyan);
       padding: 3px 8px;
@@ -292,13 +297,13 @@
     .content-text p {
       margin-bottom: 10px;
       text-align: justify;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     .content-text ul {
       margin-left: 20px;
       margin-bottom: 10px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     .content-text li {
@@ -309,7 +314,7 @@
     .table-responsive {
       width: 100%;
       overflow-x: auto;
-      margin: 12px 0;
+      margin: 10px 0;
     }
 
     table {
@@ -322,10 +327,10 @@
     }
 
     th, td {
-      padding: 10px 12px;
+      padding: 8px 10px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     th {
@@ -333,7 +338,7 @@
       color: var(--accent-cyan);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       letter-spacing: 0.5px;
     }
 
@@ -349,7 +354,7 @@
       border: 2px dashed var(--border-color);
       border-radius: 10px;
       background: rgba(0,0,0,0.18);
-      min-height: 150px;
+      min-height: 140px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -357,7 +362,7 @@
       cursor: pointer;
       overflow: hidden;
       transition: all 0.2s;
-      margin: 12px 0;
+      margin: 10px 0;
       width: 100%;
     }
 
@@ -370,7 +375,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 320px;
+      max-height: 300px;
       display: none;
     }
 
@@ -384,11 +389,11 @@
 
     .placeholder-text {
       text-align: center;
-      padding: 14px;
+      padding: 12px;
     }
 
     .placeholder-text .icon {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       margin-bottom: 4px;
       display: block;
     }
@@ -397,11 +402,11 @@
       color: var(--accent-emerald);
       display: block;
       margin-bottom: 3px;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
     }
 
     .placeholder-text span {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
     }
 
@@ -410,8 +415,8 @@
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 16px;
-      margin: 12px 0;
+      padding: 14px;
+      margin: 10px 0;
       text-align: center;
       width: 100%;
     }
@@ -425,14 +430,14 @@
       background: rgba(0,0,0,0.35);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 14px;
+      padding: 12px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      line-height: 1.45;
+      font-size: 0.78rem;
+      line-height: 1.4;
       color: #38bdf8;
       overflow-x: auto;
       white-space: pre;
-      margin: 12px 0;
+      margin: 10px 0;
       width: 100%;
     }
 
@@ -446,41 +451,65 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 10px;
       width: 100%;
     }
 
     .hardware-grid .image-box {
-      min-height: 115px;
+      min-height: 110px;
       margin: 0;
     }
 
     /* Hidden File Inputs */
     input[type="file"] { display: none; }
 
-    /* Print / Export CSS — EXACT 1-PAGE & COLOR GUARANTEE */
+    /* Print / Export CSS — EXACT EDGE-TO-EDGE FULL SHEET FILLING */
     @media print {
       body {
-        background: var(--bg-page) !important;
+        background: var(--bg-poster) !important;
         padding: 0 !important;
+        margin: 0 !important;
         color: var(--text-main) !important;
+        width: 100% !important;
+        height: 100vh !important;
       }
       .control-toolbar { display: none !important; }
       .poster-container {
         border: none !important;
         box-shadow: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 100vw !important;
+        max-width: none !important;
+        min-height: 100vh !important;
         margin: 0 !important;
         border-radius: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+      }
+      .poster-header {
+        padding: 24px 32px !important;
       }
       .poster-body {
-        padding: 20px !important;
-        gap: 20px !important;
+        padding: 20px 32px 32px 32px !important;
+        gap: 24px !important;
+        flex: 1 !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        align-items: stretch !important;
+      }
+      .poster-column {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        gap: 16px !important;
       }
       .bento-card {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
       }
       [contenteditable="true"] { outline: none !important; }
       .image-box { border: 1px solid var(--border-color) !important; }
