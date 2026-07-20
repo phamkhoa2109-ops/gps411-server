@@ -552,6 +552,23 @@
       margin: 0;
     }
 
+    .hardware-grid .image-box.has-image {
+      min-height: 110px !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .hardware-grid .image-box.has-image img {
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 240px !important;
+      object-fit: contain !important;
+      border-radius: 8px !important;
+      box-shadow: none !important;
+    }
+
     input[type="file"] { display: none; }
 
     /* EXACT A0 MASTER EXPORT MODE (2480px × 3508px - EXACT 1:1.414 RATIO) 
@@ -672,8 +689,16 @@
       object-fit: contain !important;
     }
 
+    .poster-container.exporting-mode .hardware-grid .image-box.has-image {
+      min-height: 160px !important;
+      height: 100% !important;
+    }
+
     .poster-container.exporting-mode .hardware-grid .image-box.has-image img {
-      max-height: 140px !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 220px !important;
+      object-fit: contain !important;
     }
   </style>
 </head>
