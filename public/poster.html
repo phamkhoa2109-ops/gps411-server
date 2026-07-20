@@ -61,7 +61,7 @@
 
     /* Top Floating Control Bar */
     .control-toolbar {
-      max-width: 1080px;
+      max-width: 1120px;
       margin: 0 auto 20px auto;
       background: rgba(30, 41, 59, 0.98);
       backdrop-filter: blur(12px);
@@ -207,20 +207,20 @@
       font-size: 1.05rem;
     }
 
-    /* Poster Container - EXACT A0 PORTRAIT RATIO (1080px × 1528px on screen) */
+    /* Poster Container - ON SCREEN: height auto so ALL 8 CARDS are visible without clipping */
     .poster-container {
       width: 1080px;
-      height: 1528px;
+      min-height: 1528px;
+      height: auto;
       max-width: 100%;
       margin: 0 auto;
       background: var(--bg-poster);
       border: 1px solid var(--border-color);
       border-radius: 16px;
-      overflow: hidden;
+      overflow: visible;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
     }
 
     body.light-theme .poster-container {
@@ -233,20 +233,19 @@
       background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.18), transparent 45%),
                   radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.18), transparent 45%),
                   var(--bg-poster);
-      padding: 28px 36px;
+      padding: 30px 40px;
       border-bottom: 2px solid var(--border-color);
-      flex-shrink: 0;
     }
 
     .header-badges {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .badge {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -262,7 +261,7 @@
 
     .poster-header h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.3rem;
+      font-size: 2.4rem;
       font-weight: 900;
       line-height: 1.15;
       letter-spacing: -0.8px;
@@ -273,22 +272,19 @@
     }
 
     .poster-header .subtitle {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* PORTRAIT 2-COLUMN GRID (Cards 03 and 08 span across full width) */
+    /* PORTRAIT 2-COLUMN GRID (Row 1: 01 & 02 | Row 2: 03 Full | Row 3: 04 & 05 | Row 4: 06 & 07 | Row 5: 08 Full) */
     .poster-body {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto auto auto auto;
-      gap: 18px;
-      padding: 24px 32px 32px 32px;
+      gap: 20px;
+      padding: 26px 36px 36px 36px;
       width: 100%;
       flex: 1;
-      overflow: hidden;
-      align-content: space-between;
     }
 
     .col-span-1 { grid-column: span 1; }
@@ -303,7 +299,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 18px 20px;
+      padding: 22px 24px;
       position: relative;
       transition: border-color 0.2s;
       width: 100%;
@@ -318,20 +314,20 @@
 
     .card-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.18rem;
+      font-size: 1.25rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: var(--accent-cyan);
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 8px;
+      padding-bottom: 10px;
     }
 
     .card-title .number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent-cyan);
       padding: 3px 8px;
@@ -353,30 +349,30 @@
     }
 
     .content-text p {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       text-align: justify;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
     }
 
     .content-text ul {
       margin-left: 20px;
-      margin-bottom: 8px;
-      font-size: 0.92rem;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
     }
 
     .content-text li {
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     /* Highlight Box inside text */
     .highlight-box {
       background: rgba(16, 185, 129, 0.1);
       border-left: 4px solid var(--accent-emerald);
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-radius: 8px;
-      margin: 10px 0;
-      font-size: 0.9rem;
-      line-height: 1.45;
+      margin: 12px 0;
+      font-size: 0.92rem;
+      line-height: 1.48;
     }
 
     .highlight-box.cyan {
@@ -396,7 +392,7 @@
     .table-responsive {
       width: 100%;
       overflow-x: auto;
-      margin: 8px 0;
+      margin: 10px 0;
     }
 
     table {
@@ -409,10 +405,10 @@
     }
 
     th, td {
-      padding: 7px 10px;
+      padding: 8px 10px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.82rem;
+      font-size: 0.85rem;
     }
 
     th {
@@ -420,7 +416,7 @@
       color: var(--accent-cyan);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       letter-spacing: 0.5px;
     }
 
@@ -436,7 +432,7 @@
       border: 2px dashed var(--border-color);
       border-radius: 8px;
       background: rgba(0,0,0,0.18);
-      min-height: 120px;
+      min-height: 110px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -444,7 +440,7 @@
       cursor: pointer;
       overflow: hidden;
       transition: all 0.2s;
-      margin: 8px 0;
+      margin: 10px 0;
       width: 100%;
     }
 
@@ -457,7 +453,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 260px;
+      max-height: 280px;
       display: none;
     }
 
@@ -484,11 +480,11 @@
       color: var(--accent-emerald);
       display: block;
       margin-bottom: 2px;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
     }
 
     .placeholder-text span {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
@@ -497,8 +493,8 @@
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 12px;
-      margin: 8px 0;
+      padding: 14px;
+      margin: 10px 0;
       text-align: center;
       width: 100%;
     }
@@ -512,14 +508,14 @@
       background: rgba(0,0,0,0.38);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      line-height: 1.4;
+      font-size: 0.82rem;
+      line-height: 1.42;
       color: #38bdf8;
       overflow-x: auto;
       white-space: pre;
-      margin: 8px 0;
+      margin: 10px 0;
       width: 100%;
     }
 
@@ -533,7 +529,7 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 8px;
+      margin-top: 10px;
       width: 100%;
     }
 
@@ -544,7 +540,8 @@
 
     input[type="file"] { display: none; }
 
-    /* EXACT A0 MASTER EXPORT MODE (2480px × 3508px - EXACT 1:1.414 RATIO) */
+    /* EXACT A0 MASTER EXPORT MODE (2480px × 3508px - EXACT 1:1.414 RATIO) 
+       Typography precision balanced so ALL 8 CARDS FIT INSIDE 3508px without overflow clipping! */
     .poster-container.exporting-mode {
       width: 2480px !important;
       height: 3508px !important;
@@ -554,83 +551,94 @@
       border-radius: 0 !important;
       box-shadow: none !important;
       overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
     }
 
     .poster-container.exporting-mode .poster-header {
-      padding: 50px 70px !important;
+      padding: 36px 56px !important;
     }
 
     .poster-container.exporting-mode .poster-header h1 {
-      font-size: 5rem !important;
-      margin-bottom: 18px !important;
+      font-size: 3.5rem !important;
+      margin-bottom: 12px !important;
     }
 
     .poster-container.exporting-mode .poster-header .subtitle {
-      font-size: 2.2rem !important;
+      font-size: 1.55rem !important;
     }
 
     .poster-container.exporting-mode .badge {
-      font-size: 1.4rem !important;
-      padding: 10px 22px !important;
+      font-size: 1.15rem !important;
+      padding: 8px 18px !important;
     }
 
     .poster-container.exporting-mode .poster-body {
-      padding: 46px 64px 64px 64px !important;
-      gap: 36px !important;
+      padding: 30px 48px 36px 48px !important;
+      gap: 22px !important;
+      flex: 1 !important;
+      overflow: hidden !important;
     }
 
     .poster-container.exporting-mode .bento-card {
-      padding: 38px 42px !important;
-      border-radius: 20px !important;
+      padding: 24px 28px !important;
+      border-radius: 16px !important;
+      justify-content: flex-start !important;
     }
 
     .poster-container.exporting-mode .card-title {
-      font-size: 2.4rem !important;
-      margin-bottom: 22px !important;
-      padding-bottom: 16px !important;
+      font-size: 1.65rem !important;
+      margin-bottom: 12px !important;
+      padding-bottom: 10px !important;
     }
 
     .poster-container.exporting-mode .card-title .number {
-      font-size: 1.5rem !important;
-      padding: 6px 14px !important;
+      font-size: 1.1rem !important;
+      padding: 4px 10px !important;
     }
 
     .poster-container.exporting-mode .content-text p,
     .poster-container.exporting-mode .content-text ul {
-      font-size: 1.8rem !important;
-      line-height: 1.55 !important;
-      margin-bottom: 18px !important;
+      font-size: 1.3rem !important;
+      line-height: 1.5 !important;
+      margin-bottom: 12px !important;
     }
 
     .poster-container.exporting-mode .highlight-box {
-      font-size: 1.7rem !important;
-      padding: 22px 28px !important;
-      margin: 20px 0 !important;
-      border-left-width: 6px !important;
+      font-size: 1.25rem !important;
+      padding: 14px 18px !important;
+      margin: 12px 0 !important;
+      border-left-width: 5px !important;
     }
 
     .poster-container.exporting-mode th,
     .poster-container.exporting-mode td {
-      font-size: 1.55rem !important;
-      padding: 16px 20px !important;
+      font-size: 1.15rem !important;
+      padding: 10px 14px !important;
     }
 
     .poster-container.exporting-mode th {
-      font-size: 1.4rem !important;
+      font-size: 1.05rem !important;
     }
 
     .poster-container.exporting-mode pre.code-block {
-      font-size: 1.45rem !important;
-      padding: 22px !important;
-      margin: 18px 0 !important;
+      font-size: 1.12rem !important;
+      padding: 14px !important;
+      margin: 10px 0 !important;
     }
 
     .poster-container.exporting-mode .placeholder-text strong {
-      font-size: 1.6rem !important;
+      font-size: 1.25rem !important;
     }
 
     .poster-container.exporting-mode .placeholder-text span {
-      font-size: 1.35rem !important;
+      font-size: 1.05rem !important;
+    }
+
+    .poster-container.exporting-mode .image-box {
+      min-height: 95px !important;
+      margin: 8px 0 !important;
     }
   </style>
 </head>
@@ -639,14 +647,14 @@
   <!-- Loading Overlay -->
   <div class="export-loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
-    <h2 id="loadingTitle">⏳ Đang xuất file Khổ Dọc A0 Siêu Nét (2480 × 3508px)...</h2>
-    <p>Tỷ lệ hình học chuẩn chính xác 1 : 1.414 (Khổ A0 Chuẩn Quốc Tế ISO 216). Vui lòng đợi trong giây lát!</p>
+    <h2 id="loadingTitle">⏳ Đang xuất Khổ Dọc A0 Siêu Nét (2480 × 3508px)...</h2>
+    <p>Hệ thống tự động đồng bộ đầy đủ toàn bộ 8 Mục vào đúng 1 trang A0 duy nhất. Vui lòng đợi trong giây lát!</p>
   </div>
 
   <!-- Floating Control Toolbar -->
   <div class="control-toolbar">
     <div class="toolbar-title">
-      <span>⚡ GPS411 BENTO POSTER (KHỔ DỌC A0 CHUẨN ISO)</span>
+      <span>⚡ GPS411 BENTO POSTER (ĐẦY ĐỦ 8 MỤC CHUẨN A0)</span>
       <div class="edit-badge">✎ Click trực tiếp vào chữ hoặc ô ảnh để chỉnh sửa</div>
     </div>
     <div class="toolbar-actions">
@@ -657,7 +665,7 @@
     </div>
   </div>
 
-  <!-- Poster Container (Locked exactly to 1080px x 1528px on screen, 2480px x 3508px when exporting) -->
+  <!-- Poster Container (ON SCREEN: auto height displays ALL 8 CARDS! EXPORT: 2480x3508 locks ALL 8 CARDS in 1 sheet!) -->
   <div class="poster-container" id="poster">
     
     <!-- Hero Header -->
@@ -673,33 +681,37 @@
       </div>
     </header>
 
-    <!-- PORTRAIT GRID BODY -->
+    <!-- PORTRAIT GRID BODY (ALL 8 CARDS: 01 TO 08) -->
     <div class="poster-body">
 
       <!-- CARD 1: EXECUTIVE SUMMARY & KEYWORDS (Left Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">01</span> Executive Summary & Keywords</div>
-        <div class="content-text" contenteditable="true">
-          <p>
-            An advanced, end-to-end IoT motorcycle security system combining real-time positioning and a deterministic multi-stage escalation state machine using an <strong>STM32F411</strong> microcontroller. The system parses high-precision coordinates and velocity from a <strong>u-blox NEO-7M GPS</strong> receiver and senses mechanical disturbances via an <strong>SW-420 vibration sensor</strong>. Cellular telemetry is executed by a <strong>SIMCom A7680C 4G LTE module</strong>, transmitting JSON payloads to a cloud-hosted <strong>Node.js/Render REST API</strong> utilizing optimized HTTP Session Reuse. A responsive <strong>Leaflet.js web dashboard</strong> delivers live tracking with auto-follow, remote arming/disarming, and instant emergency horn overrides.
-          </p>
-          <div class="highlight-box cyan" style="margin-top:10px;">
-            <strong>Keywords:</strong> IoT; STM32F411; A7680C 4G LTE; NEO-7M GPS; SW-420 Sensor; Real-Time Tracking; False-Alarm Prevention; Multi-Tier Anti-Theft; HTTP Session Reuse; REST API; Leaflet.js.
+        <div>
+          <div class="card-title"><span class="number">01</span> Executive Summary & Keywords</div>
+          <div class="content-text" contenteditable="true">
+            <p>
+              An advanced, end-to-end IoT motorcycle security system combining real-time positioning and a deterministic multi-stage escalation state machine using an <strong>STM32F411</strong> microcontroller. The system parses high-precision coordinates and velocity from a <strong>u-blox NEO-7M GPS</strong> receiver and senses mechanical disturbances via an <strong>SW-420 vibration sensor</strong>. Cellular telemetry is executed by a <strong>SIMCom A7680C 4G LTE module</strong>, transmitting JSON payloads to a cloud-hosted <strong>Node.js/Render REST API</strong> utilizing optimized HTTP Session Reuse. A responsive <strong>Leaflet.js web dashboard</strong> delivers live tracking with auto-follow, remote arming/disarming, and instant emergency horn overrides.
+            </p>
           </div>
+        </div>
+        <div class="highlight-box cyan" contenteditable="true">
+          <strong>Keywords:</strong> IoT; STM32F411; A7680C 4G LTE; NEO-7M GPS; SW-420 Sensor; Real-Time Tracking; False-Alarm Prevention; Multi-Tier Anti-Theft; HTTP Session Reuse; REST API; Leaflet.js.
         </div>
       </div>
 
       <!-- CARD 2: PROBLEM STATEMENT & SOLUTION (Right Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">02</span> Problem Statement & Solution</div>
-        <div class="content-text" contenteditable="true">
-          <p>
-            Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents and frequently trigger annoying false alarms when bumped by casual passersby or heavy rain. Meanwhile, standalone GPS trackers lack immediate physical deterrents and suffer from high cellular latency. <strong>GPS411</strong> resolves these challenges:
-          </p>
-          <ul>
-            <li><strong>Deterministic Edge Defense & Smart False-Alarm Filtering:</strong> Multi-stage acoustic escalation on the STM32F411 processes shocks locally in milliseconds (`ALERT_L1` warning vs `ALERT_L2` full siren), eliminating false triggers.</li>
-            <li><strong>Low-Latency Cellular Telemetry:</strong> Persistent HTTP session connections reduce 4G transmission cycle times by over 60%, guaranteeing instant remote awareness nationwide.</li>
-          </ul>
+        <div>
+          <div class="card-title"><span class="number">02</span> Problem Statement & Solution</div>
+          <div class="content-text" contenteditable="true">
+            <p>
+              Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents and frequently trigger annoying false alarms when bumped by casual passersby or heavy rain. Meanwhile, standalone GPS trackers lack immediate physical deterrents and suffer from high cellular latency. <strong>GPS411</strong> resolves these challenges:
+            </p>
+            <ul>
+              <li><strong>Deterministic Edge Defense & Smart False-Alarm Filtering:</strong> Multi-stage acoustic escalation on the STM32F411 processes shocks locally in milliseconds (`ALERT_L1` warning vs `ALERT_L2` full siren), eliminating false triggers.</li>
+              <li><strong>Low-Latency Cellular Telemetry:</strong> Persistent HTTP session connections reduce 4G transmission cycle times by over 60%, guaranteeing instant remote awareness nationwide.</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -714,7 +726,7 @@
 
         <!-- Built-in Vector Block Diagram -->
         <div class="svg-diagram-container">
-          <svg viewBox="0 0 1000 320" style="width:100%; height:auto; max-height:300px;">
+          <svg viewBox="0 0 1000 290" style="width:100%; height:auto; max-height:260px;">
             <defs>
               <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
@@ -730,54 +742,54 @@
               </linearGradient>
             </defs>
 
-            <rect x="20" y="30" width="180" height="68" rx="8" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
-            <text x="110" y="62" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">u-blox NEO-7M GPS</text>
-            <text x="110" y="83" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">USART1 (PA9/PA10)</text>
+            <rect x="20" y="25" width="180" height="64" rx="8" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
+            <text x="110" y="55" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">u-blox NEO-7M GPS</text>
+            <text x="110" y="75" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">USART1 (PA9/PA10)</text>
 
-            <rect x="20" y="126" width="180" height="68" rx="8" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
-            <text x="110" y="158" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">SW-420 Sensor</text>
-            <text x="110" y="179" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">GPIO Digital Input (PA0)</text>
+            <rect x="20" y="113" width="180" height="64" rx="8" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
+            <text x="110" y="143" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">SW-420 Sensor</text>
+            <text x="110" y="163" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">GPIO Digital Input (PA0)</text>
 
-            <rect x="20" y="222" width="180" height="68" rx="8" fill="url(#grad-green)" stroke="#10b981" stroke-width="2"/>
-            <text x="110" y="254" fill="#10b981" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">Active Buzzer (5V)</text>
-            <text x="110" y="275" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">GPIO Output (PA1)</text>
+            <rect x="20" y="201" width="180" height="64" rx="8" fill="url(#grad-green)" stroke="#10b981" stroke-width="2"/>
+            <text x="110" y="231" fill="#10b981" font-family="Outfit, sans-serif" font-size="15" font-weight="bold" text-anchor="middle">Active Buzzer (5V)</text>
+            <text x="110" y="251" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">GPIO Output (PA1)</text>
 
-            <rect x="310" y="90" width="220" height="145" rx="14" fill="url(#grad-purple)" stroke="#818cf8" stroke-width="3"/>
-            <text x="420" y="145" fill="#f8fafc" font-family="Outfit, sans-serif" font-size="20" font-weight="900" text-anchor="middle">STM32F411CEU6</text>
-            <text x="420" y="170" fill="#a5b4fc" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="600" text-anchor="middle">ARM Cortex-M4 @ 100MHz</text>
-            <text x="420" y="195" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">Non-Blocking State Machine</text>
-            <text x="420" y="215" fill="#10b981" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">HTTP Session Reuse</text>
+            <rect x="310" y="80" width="220" height="135" rx="14" fill="url(#grad-purple)" stroke="#818cf8" stroke-width="3"/>
+            <text x="420" y="132" fill="#f8fafc" font-family="Outfit, sans-serif" font-size="20" font-weight="900" text-anchor="middle">STM32F411CEU6</text>
+            <text x="420" y="155" fill="#a5b4fc" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="600" text-anchor="middle">ARM Cortex-M4 @ 100MHz</text>
+            <text x="420" y="178" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">Non-Blocking State Machine</text>
+            <text x="420" y="196" fill="#10b981" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">HTTP Session Reuse</text>
 
-            <rect x="630" y="110" width="180" height="105" rx="10" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
-            <text x="720" y="155" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">A7680C 4G LTE</text>
-            <text x="720" y="178" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">USART2 (PA2/PA3)</text>
-            <text x="720" y="198" fill="#10b981" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">HTTPS / HTTP POST</text>
+            <rect x="630" y="98" width="180" height="100" rx="10" fill="url(#grad-blue)" stroke="#38bdf8" stroke-width="2"/>
+            <text x="720" y="140" fill="#38bdf8" font-family="Outfit, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">A7680C 4G LTE</text>
+            <text x="720" y="162" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">USART2 (PA2/PA3)</text>
+            <text x="720" y="182" fill="#10b981" font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">HTTPS / HTTP POST</text>
 
-            <rect x="880" y="60" width="100" height="75" rx="8" fill="url(#grad-green)" stroke="#10b981" stroke-width="2"/>
-            <text x="930" y="96" fill="#10b981" font-family="Outfit, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Render Cloud</text>
-            <text x="930" y="116" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">Node.js API</text>
+            <rect x="880" y="55" width="100" height="70" rx="8" fill="url(#grad-green)" stroke="#10b981" stroke-width="2"/>
+            <text x="930" y="88" fill="#10b981" font-family="Outfit, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Render Cloud</text>
+            <text x="930" y="108" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">Node.js API</text>
 
-            <rect x="880" y="186" width="100" height="75" rx="8" fill="url(#grad-purple)" stroke="#818cf8" stroke-width="2"/>
-            <text x="930" y="222" fill="#818cf8" font-family="Outfit, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Leaflet Map</text>
-            <text x="930" y="242" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">Web & Mobile</text>
+            <rect x="880" y="170" width="100" height="70" rx="8" fill="url(#grad-purple)" stroke="#818cf8" stroke-width="2"/>
+            <text x="930" y="203" fill="#818cf8" font-family="Outfit, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Leaflet Map</text>
+            <text x="930" y="223" fill="#94a3b8" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">Web & Mobile</text>
 
-            <line x1="200" y1="65" x2="310" y2="130" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4"/>
-            <line x1="200" y1="160" x2="310" y2="160" stroke="#38bdf8" stroke-width="2"/>
-            <line x1="200" y1="256" x2="310" y2="195" stroke="#10b981" stroke-width="2"/>
+            <line x1="200" y1="58" x2="310" y2="120" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4"/>
+            <line x1="200" y1="145" x2="310" y2="145" stroke="#38bdf8" stroke-width="2"/>
+            <line x1="200" y1="233" x2="310" y2="180" stroke="#10b981" stroke-width="2"/>
             
-            <line x1="530" y1="160" x2="630" y2="160" stroke="#38bdf8" stroke-width="3"/>
-            <text x="580" y="150" fill="#a5b4fc" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">AT Cmds</text>
+            <line x1="530" y1="145" x2="630" y2="145" stroke="#38bdf8" stroke-width="3"/>
+            <text x="580" y="136" fill="#a5b4fc" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">AT Cmds</text>
 
-            <line x1="810" y1="150" x2="880" y2="110" stroke="#10b981" stroke-width="2" stroke-dasharray="5"/>
-            <line x1="810" y1="175" x2="880" y2="215" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
+            <line x1="810" y1="135" x2="880" y2="100" stroke="#10b981" stroke-width="2" stroke-dasharray="5"/>
+            <line x1="810" y1="160" x2="880" y2="195" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
           </svg>
-          <div style="font-size:0.86rem; color:var(--text-muted); margin-top:6px;">
+          <div style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">
             Fig 1. Integrated System Block Diagram (Built-in vector graphics. Optional custom upload below).
           </div>
         </div>
 
         <!-- Optional Custom Image Upload Box -->
-        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 100px;">
+        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 85px;">
           <input type="file" accept="image/*" onchange="previewImage(this, event)">
           <div class="placeholder-text">
             <span class="icon">🖼️</span>
@@ -790,60 +802,62 @@
 
       <!-- CARD 4: HARDWARE PINOUT TABLE & PHOTOS (Left Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">04</span> Hardware Specifications & Pin Configuration</div>
-        <div class="content-text" contenteditable="true">
-          <p>All modules operate across dedicated buses (`5V` Battery Shield V3 & `3.3V` LDO bus) to eliminate voltage dips during cellular peak bursts (2A surge protection):</p>
-        </div>
+        <div>
+          <div class="card-title"><span class="number">04</span> Hardware Specifications & Pin Configuration</div>
+          <div class="content-text" contenteditable="true">
+            <p>All modules operate across dedicated buses (`5V` Battery Shield V3 & `3.3V` LDO bus) to eliminate voltage dips during cellular peak bursts (2A surge protection):</p>
+          </div>
 
-        <div class="table-responsive">
-          <table contenteditable="true">
-            <thead>
-              <tr>
-                <th>Module / Device</th>
-                <th>MCU Pin / Interface</th>
-                <th>Baud / Signal</th>
-                <th>Role & Function</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>STM32F411CEU6</strong></td>
-                <td>ARM Cortex-M4 Core</td>
-                <td>100 MHz Clock</td>
-                <td>Main edge controller & state machine</td>
-              </tr>
-              <tr>
-                <td><strong>u-blox NEO-7M GPS</strong></td>
-                <td><code>USART1</code> (`PA9`/`PA10`)</td>
-                <td>9600 Baud</td>
-                <td>Parses NMEA latitude, longitude & velocity</td>
-              </tr>
-              <tr>
-                <td><strong>SIMCom A7680C 4G</strong></td>
-                <td><code>USART2</code> (`PA2`/`PA3`)</td>
-                <td>115200 Baud</td>
-                <td>Cellular HTTPS/HTTP REST telemetry</td>
-              </tr>
-              <tr>
-                <td><strong>SW-420 Sensor</strong></td>
-                <td><code>GPIO Input</code> (`PA0`)</td>
-                <td>Digital Pulse</td>
-                <td>LM393 comparator shock detection</td>
-              </tr>
-              <tr>
-                <td><strong>Active Buzzer (5V)</strong></td>
-                <td><code>GPIO Output</code> (`PA1`)</td>
-                <td>Digital Low/High</td>
-                <td>Acoustic deterrent & startup audio cues</td>
-              </tr>
-              <tr>
-                <td><strong>Battery Shield V3</strong></td>
-                <td><code>5V & GND Bus</code></td>
-                <td>18650 Li-Ion</td>
-                <td>Provides stable high-current peak supply</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table contenteditable="true">
+              <thead>
+                <tr>
+                  <th>Module / Device</th>
+                  <th>MCU Pin / Interface</th>
+                  <th>Baud / Signal</th>
+                  <th>Role & Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>STM32F411CEU6</strong></td>
+                  <td>ARM Cortex-M4 Core</td>
+                  <td>100 MHz Clock</td>
+                  <td>Main edge controller & state machine</td>
+                </tr>
+                <tr>
+                  <td><strong>u-blox NEO-7M GPS</strong></td>
+                  <td><code>USART1</code> (`PA9`/`PA10`)</td>
+                  <td>9600 Baud</td>
+                  <td>Parses NMEA latitude, longitude & velocity</td>
+                </tr>
+                <tr>
+                  <td><strong>SIMCom A7680C 4G</strong></td>
+                  <td><code>USART2</code> (`PA2`/`PA3`)</td>
+                  <td>115200 Baud</td>
+                  <td>Cellular HTTPS/HTTP REST telemetry</td>
+                </tr>
+                <tr>
+                  <td><strong>SW-420 Sensor</strong></td>
+                  <td><code>GPIO Input</code> (`PA0`)</td>
+                  <td>Digital Pulse</td>
+                  <td>LM393 comparator shock detection</td>
+                </tr>
+                <tr>
+                  <td><strong>Active Buzzer (5V)</strong></td>
+                  <td><code>GPIO Output</code> (`PA1`)</td>
+                  <td>Digital Low/High</td>
+                  <td>Acoustic deterrent & startup audio cues</td>
+                </tr>
+                <tr>
+                  <td><strong>Battery Shield V3</strong></td>
+                  <td><code>5V & GND Bus</code></td>
+                  <td>18650 Li-Ion</td>
+                  <td>Provides stable high-current peak supply</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- 4 Hardware Photo Placeholders -->
@@ -889,14 +903,15 @@
 
       <!-- CARD 5: FIRMWARE STATE MACHINE & SMART FALSE-ALARM PREVENTION (Right Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">05</span> Firmware State Machine & False-Alarm Prevention</div>
-        <div class="content-text" contenteditable="true">
-          <p>
-            The firmware eliminates RTOS overhead by deploying a deterministic, non-blocking super-loop (`while(1)`) governed by <code>HAL_GetTick()</code> timers with two-tier shock escalation:
-          </p>
-        </div>
+        <div>
+          <div class="card-title"><span class="number">05</span> Firmware State Machine & False-Alarm Prevention</div>
+          <div class="content-text" contenteditable="true">
+            <p>
+              The firmware eliminates RTOS overhead by deploying a deterministic, non-blocking super-loop (`while(1)`) governed by <code>HAL_GetTick()</code> timers with two-tier shock escalation:
+            </p>
+          </div>
 
-        <pre class="code-block" contenteditable="true">
+          <pre class="code-block" contenteditable="true">
        [TRACKING] &lt;--(Overspeed &gt;60km/h)--&gt; [Beep Warning]
            |
       (Lock / Arm)
@@ -907,20 +922,21 @@
                                                     v
                                             [ALERT_L2 (Full Siren)]</pre>
 
-        <!-- SMART FALSE ALARM PREVENTION BOX -->
-        <div class="highlight-box" contenteditable="true">
-          <strong>🛡️ Smart False-Alarm Prevention (`Cơ Chế Tránh Báo Động Nhầm`):</strong>
-          <p style="margin-top:4px; margin-bottom:0;">
-            Traditional alarms trigger deafening sirens on any minor contact (rain, cats, accidental touches), causing neighborhood annoyance. <strong>GPS411 solves this using a Two-Tier Time-Window Algorithm:</strong>
-          </p>
-          <ul style="margin-top:4px; margin-bottom:0; margin-left:20px;">
-            <li><strong>Accidental Bump (`ALERT_L1`):</strong> A single shock pulse (`PA0`) triggers only a brief, polite warning beep (200ms ON / 800ms OFF) and opens a 5-second sampling window.</li>
-            <li><strong>True Theft Attempt (`ALERT_L2`):</strong> Only when cumulative shocks inside the 5-second window exceed threshold (`vib_count ≥ L1_TO_L2_COUNT`) does the system confirm actual physical tampering and unleash the 60-second high-decibel siren.</li>
-            <li><strong>Instant Remote Cutoff:</strong> Owners can instantly silence active sirens via the web dashboard (`Alert_HornOff()`) in $< 4\text{ seconds}$ without disabling tracking.</li>
-          </ul>
+          <!-- SMART FALSE ALARM PREVENTION BOX -->
+          <div class="highlight-box" contenteditable="true">
+            <strong>🛡️ Smart False-Alarm Prevention (`Cơ Chế Tránh Báo Động Nhầm`):</strong>
+            <p style="margin-top:4px; margin-bottom:0;">
+              Traditional alarms trigger deafening sirens on any minor contact (rain, cats, accidental touches), causing neighborhood annoyance. <strong>GPS411 solves this using a Two-Tier Time-Window Algorithm:</strong>
+            </p>
+            <ul style="margin-top:4px; margin-bottom:0; margin-left:20px;">
+              <li><strong>Accidental Bump (`ALERT_L1`):</strong> A single shock pulse (`PA0`) triggers only a brief, polite warning beep (200ms ON / 800ms OFF) and opens a 5-second sampling window.</li>
+              <li><strong>True Theft Attempt (`ALERT_L2`):</strong> Only when cumulative shocks inside the 5-second window exceed threshold (`vib_count ≥ L1_TO_L2_COUNT`) does the system confirm actual physical tampering and unleash the 60-second high-decibel siren.</li>
+              <li><strong>Instant Remote Cutoff:</strong> Owners can instantly silence active sirens via the web dashboard (`Alert_HornOff()`) in $< 4\text{ seconds}$ without disabling tracking.</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="content-text" contenteditable="true" style="margin-top:8px;">
+        <div class="content-text" contenteditable="true">
           <ul>
             <li><strong><code>TRACKING</code>:</strong> Active while driving. Constantly monitors <code>speed_kmh</code> from NEO-7M; emits warning beeps if exceeding `60 km/h`.</li>
             <li><strong><code>STANDBY</code>:</strong> Vehicle locked (`is_armed = 1`). Listens to `PA0` for initial vibrations.</li>
@@ -930,16 +946,18 @@
 
       <!-- CARD 6: HTTP SESSION REUSE & TELEMETRY (Left Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">06</span> HTTP Session Reuse & Cellular Telemetry</div>
-        <div class="content-text" contenteditable="true">
-          <p>
-            Standard cellular HTTP POST cycles require ~20 seconds due to repeated SSL/TLS handshakes (`AT+HTTPINIT`, `CSSLCFG`, `SSLCFG`). GPS411 implements <strong>Persistent HTTP Session Reuse</strong>:
-          </p>
-          <ul>
-            <li><strong>First Cycle (`POST`):</strong> Executes full 14-step setup (`STOP` → `SSL` → `INIT` → `POST` → `DONE`).</li>
-            <li><strong>Reused Cycles (`REUSE`):</strong> Skips directly to step 9 (`DATA` → `BODY` → `ACTION` → `READ` → `DONE`).</li>
-            <li><strong>Performance Gain:</strong> Cycle latency reduced from <strong>~20s down to ~3–5s</strong>.</li>
-          </ul>
+        <div>
+          <div class="card-title"><span class="number">06</span> HTTP Session Reuse & Cellular Telemetry</div>
+          <div class="content-text" contenteditable="true">
+            <p>
+              Standard cellular HTTP POST cycles require ~20 seconds due to repeated SSL/TLS handshakes (`AT+HTTPINIT`, `CSSLCFG`, `SSLCFG`). GPS411 implements <strong>Persistent HTTP Session Reuse</strong>:
+            </p>
+            <ul>
+              <li><strong>First Cycle (`POST`):</strong> Executes full 14-step setup (`STOP` → `SSL` → `INIT` → `POST` → `DONE`).</li>
+              <li><strong>Reused Cycles (`REUSE`):</strong> Skips directly to step 9 (`DATA` → `BODY` → `ACTION` → `READ` → `DONE`).</li>
+              <li><strong>Performance Gain:</strong> Cycle latency reduced from <strong>~20s down to ~3–5s</strong>.</li>
+            </ul>
+          </div>
         </div>
 
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
@@ -963,27 +981,29 @@
 
       <!-- CARD 7: CLOUD SERVER & WEB DASHBOARD (Right Col) -->
       <div class="bento-card col-span-1">
-        <div class="card-title"><span class="number">07</span> Cloud Server & Leaflet.js Web Dashboard</div>
-        <div class="content-text" contenteditable="true">
-          <p>
-            The cloud backend runs on <strong>Node.js / Express.js</strong> deployed on <strong>Render Cloud</strong>, buffering the last 50 GPS waypoints (`history`) and queuing asynchronous control commands:
-          </p>
-          <ul>
-            <li><strong>Smart Auto-Follow (`panTo`):</strong> Leaflet.js automatically pans to follow the vehicle smoothly. When the user manually drags the map to inspect streets, auto-follow yields control instantly, showing a <strong>"📍 Center"</strong> snap-back button.</li>
-            <li><strong>Real-Time 2-Second Polling (`2000 ms`):</strong> Live status indicators for GPS Fix (`#68d391`), vehicle velocity, protection status, and horn state (`📢 Đang kêu`).</li>
-            <li><strong>Low Cellular Footprint:</strong> Highly optimized payloads consume only <strong>~10 MB – 40 MB per day</strong>, allowing continuous 24/7 telemetry on basic SIM plans.</li>
-          </ul>
-
-          <!-- Dashboard Screenshot Box -->
-          <div class="image-box" onclick="triggerUpload(this)" style="min-height: 160px;">
-            <input type="file" accept="image/*" onchange="previewImage(this, event)">
-            <div class="placeholder-text">
-              <span class="icon">💻</span>
-              <strong>Click to upload Web Dashboard Screenshot</strong>
-              <span>Shows Leaflet.js Map, Auto-Follow controls, and Remote Arming cards</span>
-            </div>
-            <img src="" alt="Web Dashboard">
+        <div>
+          <div class="card-title"><span class="number">07</span> Cloud Server & Leaflet.js Web Dashboard</div>
+          <div class="content-text" contenteditable="true">
+            <p>
+              The cloud backend runs on <strong>Node.js / Express.js</strong> deployed on <strong>Render Cloud</strong>, buffering the last 50 GPS waypoints (`history`) and queuing asynchronous control commands:
+            </p>
+            <ul>
+              <li><strong>Smart Auto-Follow (`panTo`):</strong> Leaflet.js automatically pans to follow the vehicle smoothly. When the user manually drags the map to inspect streets, auto-follow yields control instantly, showing a <strong>"📍 Center"</strong> snap-back button.</li>
+              <li><strong>Real-Time 2-Second Polling (`2000 ms`):</strong> Live status indicators for GPS Fix (`#68d391`), vehicle velocity, protection status, and horn state (`📢 Đang kêu`).</li>
+              <li><strong>Low Cellular Footprint:</strong> Highly optimized payloads consume only <strong>~10 MB – 40 MB per day</strong>, allowing continuous 24/7 telemetry on basic SIM plans.</li>
+            </ul>
           </div>
+        </div>
+
+        <!-- Dashboard Screenshot Box -->
+        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 120px;">
+          <input type="file" accept="image/*" onchange="previewImage(this, event)">
+          <div class="placeholder-text">
+            <span class="icon">💻</span>
+            <strong>Click to upload Web Dashboard Screenshot</strong>
+            <span>Shows Leaflet.js Map, Auto-Follow controls, and Remote Arming cards</span>
+          </div>
+          <img src="" alt="Web Dashboard">
         </div>
       </div>
 
@@ -991,13 +1011,13 @@
       <div class="bento-card col-span-2">
         <div class="card-title"><span class="number">08</span> Experimental Verification, Key Results & Future Work</div>
         <div class="content-text" contenteditable="true">
-          <h4 style="color:var(--accent-emerald); margin-bottom:6px; font-size:1.1rem;">🧪 Verified Performance & Reliability</h4>
+          <h4 style="color:var(--accent-emerald); margin-bottom:6px; font-size:1.05rem;">🧪 Verified Performance & Reliability</h4>
           <ul>
-            <li><strong>End-to-End Latency:</strong> Verified cellular round-trip time of <strong>~3 to 5 seconds</strong> using HTTP Session Reuse, compared to >19s in unoptimized polling mode.</li>
+            <li><strong>End-to-End Latency:</strong> Verified round-trip cellular latency of <strong>~3 to 5 seconds</strong> using HTTP Session Reuse, compared to >19s in unoptimized polling mode.</li>
             <li><strong>Acoustic Override & False-Alarm Prevention:</strong> The two-tier `vib_count` window accurately filters out 100% of single accidental bumps (`ALERT_L1`). Web-initiated `HORN_OFF` successfully overrides active `ALERT_L2` sirens nationwide in $< 4\text{ seconds}$.</li>
           </ul>
 
-          <h4 style="color:var(--accent-cyan); margin: 12px 0 6px 0; font-size:1.1rem;">🚀 Conclusion & Future Roadmap</h4>
+          <h4 style="color:var(--accent-cyan); margin: 10px 0 6px 0; font-size:1.05rem;">🚀 Conclusion & Future Roadmap</h4>
           <p>
             The GPS411 architecture validates that splitting edge deterministic control (STM32F411) from cellular networking (A7680C) creates a highly resilient, low-latency motorcycle security system.
           </p>
@@ -1020,9 +1040,9 @@
       const poster = document.getElementById('poster');
 
       if (format === 'pdf') {
-        title.innerText = '⏳ Đang dựng & tải File PDF Khổ Dọc A0 (2480px × 3508px)...';
+        title.innerText = '⏳ Đang dựng & tải File PDF Khổ Dọc A0 (2480 × 3508px)...';
       } else {
-        title.innerText = '⏳ Đang xuất File Ảnh PNG High-Res (2480px × 3508px)...';
+        title.innerText = '⏳ Đang xuất File Ảnh PNG High-Res (2480 × 3508px)...';
       }
       overlay.classList.add('active');
 
@@ -1033,7 +1053,6 @@
       poster.classList.add('exporting-mode');
 
       try {
-        // scale: 1 on a 2480x3508 box captures exactly 2480 x 3508 pixels!
         const canvas = await html2canvas(poster, {
           scale: 1,
           width: 2480,
