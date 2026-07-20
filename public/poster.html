@@ -12,7 +12,7 @@
       --bg-page: #0b0f19;
       --bg-poster: #0f172a;
       --bg-card: #1e293b;
-      --bg-card-hover: #334155;
+      --bg-card-hover: #263348;
       --border-color: #334155;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
@@ -29,9 +29,9 @@
       --bg-poster: #ffffff;
       --bg-card: #f8fafc;
       --bg-card-hover: #f1f5f9;
-      --border-color: #e2e8f0;
+      --border-color: #cbd5e1;
       --text-main: #0f172a;
-      --text-muted: #64748b;
+      --text-muted: #475569;
       --accent-cyan: #0284c7;
       --accent-emerald: #059669;
       --accent-indigo: #4f46e5;
@@ -54,11 +54,11 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Top Floating Control Bar (Invisible when printing) */
+    /* Top Floating Control Bar */
     .control-toolbar {
       max-width: 1400px;
       margin: 0 auto 20px auto;
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(30, 41, 59, 0.9);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -73,7 +73,7 @@
     }
 
     body.light-theme .control-toolbar {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     }
 
@@ -96,6 +96,7 @@
       display: flex;
       gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -204,12 +205,13 @@
       font-weight: 500;
     }
 
-    /* Bento Grid Body */
+    /* Rock-Solid 3-Column Bento Grid with minmax(0, 1fr) */
     .poster-grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 24px;
       padding: 36px;
+      width: 100%;
     }
 
     .bento-card {
@@ -219,17 +221,25 @@
       padding: 26px;
       position: relative;
       transition: border-color 0.2s;
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .bento-card:hover {
       border-color: var(--accent-cyan);
     }
 
-    /* Grid Spans for Bento Cards */
-    .col-span-12 { grid-column: span 12; }
-    .col-span-8  { grid-column: span 8; }
-    .col-span-6  { grid-column: span 6; }
-    .col-span-4  { grid-column: span 4; }
+    /* Spans */
+    .col-span-1 { grid-column: span 1; }
+    .col-span-2 { grid-column: span 2; }
+    .col-span-3 { grid-column: span 3; }
+
+    @media (max-width: 1024px) {
+      .poster-grid { grid-template-columns: 1fr; }
+      .col-span-1, .col-span-2, .col-span-3 { grid-column: span 1; }
+    }
 
     .card-title {
       font-family: 'Outfit', sans-serif;
@@ -258,6 +268,8 @@
       outline: none;
       border-radius: 4px;
       transition: background 0.2s;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     [contenteditable="true"]:focus {
@@ -280,11 +292,16 @@
     }
 
     /* Tables */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
     table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      margin: 12px 0;
       border: 1px solid var(--border-color);
       border-radius: 10px;
       overflow: hidden;
@@ -318,7 +335,7 @@
       border: 2px dashed var(--border-color);
       border-radius: 12px;
       background: rgba(0,0,0,0.15);
-      min-height: 180px;
+      min-height: 160px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -327,6 +344,7 @@
       overflow: hidden;
       transition: all 0.2s;
       margin: 14px 0;
+      width: 100%;
     }
 
     .image-box:hover {
@@ -338,7 +356,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 380px;
+      max-height: 360px;
       display: none;
     }
 
@@ -352,12 +370,12 @@
 
     .placeholder-text {
       text-align: center;
-      padding: 20px;
+      padding: 16px;
     }
 
     .placeholder-text .icon {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
+      font-size: 2rem;
+      margin-bottom: 6px;
       display: block;
     }
 
@@ -365,6 +383,7 @@
       color: var(--accent-emerald);
       display: block;
       margin-bottom: 4px;
+      font-size: 0.9rem;
     }
 
     .placeholder-text span {
@@ -380,6 +399,8 @@
       padding: 20px;
       margin: 16px 0;
       text-align: center;
+      width: 100%;
+      overflow-x: auto;
     }
 
     body.light-theme .svg-diagram-container {
@@ -397,7 +418,9 @@
       line-height: 1.5;
       color: #38bdf8;
       overflow-x: auto;
+      white-space: pre;
       margin: 12px 0;
+      width: 100%;
     }
 
     body.light-theme pre.code-block {
@@ -408,13 +431,19 @@
     /* Photo Grid for Hardware */
     .hardware-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-top: 14px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .hardware-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     .hardware-grid .image-box {
       min-height: 130px;
+      margin: 0;
     }
 
     /* Hidden File Inputs */
@@ -466,7 +495,7 @@
       <div class="header-badges">
         <span class="badge" contenteditable="true">🎓 FPT University • Course MIP201</span>
         <span class="badge badge-emerald" contenteditable="true">🚀 IoT Systems Engineering</span>
-        <span class="badge badge-amber" contenteditable="true">🔒 Group Project Project</span>
+        <span class="badge badge-amber" contenteditable="true">🔒 Group Project</span>
       </div>
       <h1 contenteditable="true">GPS411 — IoT Motorcycle Anti-Theft & Real-Time Cellular Tracking System</h1>
       <div class="subtitle" contenteditable="true">
@@ -474,11 +503,11 @@
       </div>
     </header>
 
-    <!-- Bento Grid Content -->
+    <!-- Bento Grid Content (3 Proportional Columns) -->
     <div class="poster-grid">
 
-      <!-- CARD 1: ABSTRACT & KEYWORDS (Col 6) -->
-      <div class="bento-card col-span-6">
+      <!-- CARD 1: EXECUTIVE SUMMARY & KEYWORDS (Col Span 2) -->
+      <div class="bento-card col-span-2">
         <div class="card-title"><span class="number">01</span> Executive Summary & Keywords</div>
         <div class="content-text" contenteditable="true">
           <p>
@@ -490,22 +519,22 @@
         </div>
       </div>
 
-      <!-- CARD 2: INTRODUCTION (Col 6) -->
-      <div class="bento-card col-span-6">
+      <!-- CARD 2: PROBLEM STATEMENT & SOLUTION (Col Span 1) -->
+      <div class="bento-card col-span-1">
         <div class="card-title"><span class="number">02</span> Problem Statement & Solution</div>
         <div class="content-text" contenteditable="true">
           <p>
-            Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents within earshot, while standalone GPS trackers lack immediate physical deterrents and often suffer from high cellular latency or heavy data costs. <strong>GPS411</strong> resolves this duality by implementing a split-edge/cloud architecture:
+            Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents within earshot, while standalone GPS trackers lack immediate physical deterrents and often suffer from high cellular latency. <strong>GPS411</strong> resolves this duality by implementing a split architecture:
           </p>
           <ul>
-            <li><strong>Deterministic Edge Defense:</strong> A multi-stage acoustic escalation system on the STM32F411 processes shocks locally in milliseconds, warning accidental passersby (`ALERT_L1`) while unleashing a full siren (`ALERT_L2`) against persistent theft attempts.</li>
-            <li><strong>Low-Latency Cellular Telemetry:</strong> Persistent HTTP session connections reduce 4G transmission latency by over 60%, guaranteeing instant nationwide remote control and real-time tracking on smartphones and computers.</li>
+            <li><strong>Deterministic Edge Defense:</strong> Multi-stage acoustic escalation on the STM32F411 processes shocks locally in milliseconds (`ALERT_L1` warning vs `ALERT_L2` full siren).</li>
+            <li><strong>Low-Latency Cellular Telemetry:</strong> Persistent HTTP session connections reduce 4G transmission cycle times by over 60%, guaranteeing instant remote awareness nationwide.</li>
           </ul>
         </div>
       </div>
 
-      <!-- CARD 3: SYSTEM ARCHITECTURE & BLOCK DIAGRAM (Col 12 - Full Width) -->
-      <div class="bento-card col-span-12">
+      <!-- CARD 3: SYSTEM ARCHITECTURE & BLOCK DIAGRAM (Col Span 3 - Full Width) -->
+      <div class="bento-card col-span-3">
         <div class="card-title"><span class="number">03</span> System Architecture & High-Tech Block Diagram</div>
         <div class="content-text" contenteditable="true">
           <p>
@@ -513,7 +542,7 @@
           </p>
         </div>
 
-        <!-- Built-in High-Tech Vector Block Diagram (You don't even need an image, but you can also upload one below!) -->
+        <!-- Built-in High-Tech Vector Block Diagram -->
         <div class="svg-diagram-container">
           <svg viewBox="0 0 1000 360" style="width:100%; height:auto; max-height:360px;">
             <defs>
@@ -578,7 +607,7 @@
             <line x1="810" y1="200" x2="880" y2="240" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
           </svg>
           <div style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">
-            Fig 1. Integrated System Block Diagram (Rendered cleanly with vector graphics. You can also upload custom diagram below if preferred).
+            Fig 1. Integrated System Block Diagram (Rendered vector graphics. You can also upload a custom diagram below if preferred).
           </div>
         </div>
 
@@ -588,68 +617,70 @@
           <div class="placeholder-text">
             <span class="icon">🖼️</span>
             <strong>Click to upload custom Block Diagram Image (Optional)</strong>
-            <span>If you have your own image file, click here to replace/add it above!</span>
+            <span>If you have your own diagram image file, click here to replace/add it above!</span>
           </div>
           <img src="" alt="Block Diagram">
         </div>
 
       </div>
 
-      <!-- CARD 4: HARDWARE PINOUT TABLE & prototype (Col 7) -->
-      <div class="bento-card col-span-7">
+      <!-- CARD 4: HARDWARE PINOUT TABLE & PHOTOS (Col Span 2) -->
+      <div class="bento-card col-span-2">
         <div class="card-title"><span class="number">04</span> Hardware Specifications & Pin Configuration</div>
         <div class="content-text" contenteditable="true">
           <p>All modules operate cleanly across dedicated power buses (`5V` Battery Shield V3 & `3.3V` LDO bus) to eliminate voltage dips during cellular peak bursts (2A surge protection):</p>
         </div>
 
-        <table contenteditable="true">
-          <thead>
-            <tr>
-              <th>Module / Device</th>
-              <th>MCU Pin / Interface</th>
-              <th>Baud / Signal</th>
-              <th>Role & Function</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>STM32F411CEU6</strong></td>
-              <td>ARM Cortex-M4 Core</td>
-              <td>100 MHz Clock</td>
-              <td>Main edge controller & state machine</td>
-            </tr>
-            <tr>
-              <td><strong>u-blox NEO-7M GPS</strong></td>
-              <td><code>USART1</code> (`PA9`/`PA10`)</td>
-              <td>9600 Baud</td>
-              <td>Parses NMEA latitude, longitude & velocity</td>
-            </tr>
-            <tr>
-              <td><strong>SIMCom A7680C 4G</strong></td>
-              <td><code>USART2</code> (`PA2`/`PA3`)</td>
-              <td>115200 Baud</td>
-              <td>Cellular HTTPS/HTTP REST telemetry</td>
-            </tr>
-            <tr>
-              <td><strong>SW-420 Sensor</strong></td>
-              <td><code>GPIO Input</code> (`PA0`)</td>
-              <td>Digital Pulse</td>
-              <td>LM393 comparator shock detection</td>
-            </tr>
-            <tr>
-              <td><strong>Active Buzzer (5V)</strong></td>
-              <td><code>GPIO Output</code> (`PA1`)</td>
-              <td>Digital Low/High</td>
-              <td>Acoustic deterrent & startup audio cues</td>
-            </tr>
-            <tr>
-              <td><strong>Battery Shield V3</strong></td>
-              <td><code>5V & GND Bus</code></td>
-              <td>18650 Li-Ion</td>
-              <td>Provides stable high-current peak supply</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table contenteditable="true">
+            <thead>
+              <tr>
+                <th>Module / Device</th>
+                <th>MCU Pin / Interface</th>
+                <th>Baud / Signal</th>
+                <th>Role & Function</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>STM32F411CEU6</strong></td>
+                <td>ARM Cortex-M4 Core</td>
+                <td>100 MHz Clock</td>
+                <td>Main edge controller & state machine</td>
+              </tr>
+              <tr>
+                <td><strong>u-blox NEO-7M GPS</strong></td>
+                <td><code>USART1</code> (`PA9`/`PA10`)</td>
+                <td>9600 Baud</td>
+                <td>Parses NMEA latitude, longitude & velocity</td>
+              </tr>
+              <tr>
+                <td><strong>SIMCom A7680C 4G</strong></td>
+                <td><code>USART2</code> (`PA2`/`PA3`)</td>
+                <td>115200 Baud</td>
+                <td>Cellular HTTPS/HTTP REST telemetry</td>
+              </tr>
+              <tr>
+                <td><strong>SW-420 Sensor</strong></td>
+                <td><code>GPIO Input</code> (`PA0`)</td>
+                <td>Digital Pulse</td>
+                <td>LM393 comparator shock detection</td>
+              </tr>
+              <tr>
+                <td><strong>Active Buzzer (5V)</strong></td>
+                <td><code>GPIO Output</code> (`PA1`)</td>
+                <td>Digital Low/High</td>
+                <td>Acoustic deterrent & startup audio cues</td>
+              </tr>
+              <tr>
+                <td><strong>Battery Shield V3</strong></td>
+                <td><code>5V & GND Bus</code></td>
+                <td>18650 Li-Ion</td>
+                <td>Provides stable high-current peak supply</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- 4 Hardware Photo Placeholders -->
         <div class="hardware-grid">
@@ -692,8 +723,8 @@
         </div>
       </div>
 
-      <!-- CARD 5: FIRMWARE STATE MACHINE (Col 5) -->
-      <div class="bento-card col-span-5">
+      <!-- CARD 5: FIRMWARE STATE MACHINE (Col Span 1) -->
+      <div class="bento-card col-span-1">
         <div class="card-title"><span class="number">05</span> Firmware State Machine & Escalation Logic</div>
         <div class="content-text" contenteditable="true">
           <p>
@@ -702,64 +733,55 @@
         </div>
 
         <pre class="code-block" contenteditable="true">
-       [TRACKING] &lt;--(Overspeed &gt;60km/h)--&gt; [Beep Warning]
+       [TRACKING] &lt;--(Overspeed &gt;60)--&gt; [Beep Warning]
            |
       (Lock / Arm)
            v
-       [STANDBY]  &lt;--(Shock detected)-----&gt; [ALERT_L1 (Beep)]
-                                                 |
-                                     (Repeated shocks inside window)
-                                                 v
-                                          [ALERT_L2 (Siren)]</pre>
+       [STANDBY]  &lt;--(Shock sensed)--&gt; [ALERT_L1 (Beep)]
+                                              |
+                                 (Repeated inside window)
+                                              v
+                                       [ALERT_L2 (Siren)]</pre>
 
         <div class="content-text" contenteditable="true">
           <ul>
             <li><strong><code>TRACKING</code>:</strong> Active while driving. Constantly monitors <code>speed_kmh</code> from NEO-7M; emits warning beeps if exceeding `60 km/h`.</li>
             <li><strong><code>STANDBY</code>:</strong> Vehicle locked (`is_armed = 1`). Listens to `PA0` for initial vibrations.</li>
-            <li><strong><code>ALERT_L1</code> (Warning):</strong> Intermittent beep pattern (200ms ON / 800ms OFF) for accidental touches. Counts cumulative shocks within `L1_TO_L2_WINDOW_MS`.</li>
-            <li><strong><code>ALERT_L2</code> (Full Siren):</strong> Triggered when `vib_count ≥ L1_TO_L2_COUNT`. Continuous high-decibel siren for 60s or until remote disarm.</li>
+            <li><strong><code>ALERT_L1</code> (Warning):</strong> Intermittent beep pattern (200ms ON / 800ms OFF) for accidental touches. Counts cumulative shocks inside window.</li>
+            <li><strong><code>ALERT_L2</code> (Full Siren):</strong> Triggered when `vib_count ≥ L1_TO_L2_COUNT`. Continuous siren for 60s or until remote disarm.</li>
             <li><strong><code>HORN OVERRIDE</code>:</strong> Immediate remote cutoff (`Alert_HornOff()`) overrides all active alarm states instantly.</li>
           </ul>
         </div>
       </div>
 
-      <!-- CARD 6: HTTP SESSION REUSE & DATA PROTOCOL (Col 6) -->
-      <div class="bento-card col-span-6">
-        <div class="card-title"><span class="number">06</span> HTTP Session Reuse & Cellular Telemetry</div>
+      <!-- CARD 6: HTTP SESSION REUSE & DATA PROTOCOL (Col Span 1) -->
+      <div class="bento-card col-span-1">
+        <div class="card-title"><span class="number">06</span> HTTP Session Reuse & Telemetry</div>
         <div class="content-text" contenteditable="true">
           <p>
-            Standard cellular HTTP POST cycles require ~20 seconds due to repeated SSL/TLS handshakes (`AT+HTTPINIT`, `CSSLCFG`, `SSLCFG`). GPS411 implements <strong>Persistent HTTP Session Reuse</strong>, maintaining the SSL socket open between transmission intervals:
+            Standard cellular HTTP POST cycles require ~20 seconds due to repeated SSL/TLS handshakes (`AT+HTTPINIT`, `CSSLCFG`, `SSLCFG`). GPS411 implements <strong>Persistent HTTP Session Reuse</strong>:
           </p>
           <ul>
             <li><strong>First Cycle (`POST`):</strong> Executes full 14-step setup (`STOP` → `SSL` → `INIT` → `POST` → `DONE`).</li>
             <li><strong>Reused Cycles (`REUSE`):</strong> Skips directly to step 9 (`DATA` → `BODY` → `ACTION` → `READ` → `DONE`).</li>
-            <li><strong>Performance Gain:</strong> Cycle latency reduced from <strong>~20s down to ~3–5s</strong>. If network dropouts occur, auto-recovery logic (`*ATREADY:`) seamlessly re-initializes the session.</li>
+            <li><strong>Performance Gain:</strong> Cycle latency reduced from <strong>~20s down to ~3–5s</strong>.</li>
           </ul>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <pre class="code-block" contenteditable="true"><strong>Uplink JSON (`POST /api/data`)</strong>
+        <pre class="code-block" contenteditable="true"><strong>Uplink (`POST /api/data`)</strong>
 {
   "lat": 10.823100,
   "lng": 106.629700,
   "speed": 35.4,
   "state": "STANDBY",
-  "armed": 1,
-  "horn": 0
+  "armed": 1, "horn": 0
 }</pre>
-          <pre class="code-block" contenteditable="true"><strong>Downlink Command Response</strong>
-{
-  "cmd": "HORN_OFF"
-}
-
-// Supported Commands:
-// NONE, ARM, DISARM,
-// HORN_ON, HORN_OFF</pre>
-        </div>
+        <pre class="code-block" contenteditable="true"><strong>Downlink Command Response</strong>
+{ "cmd": "HORN_OFF" }</pre>
       </div>
 
-      <!-- CARD 7: WEB DASHBOARD & CLOUD SERVER (Col 6) -->
-      <div class="bento-card col-span-6">
+      <!-- CARD 7: WEB DASHBOARD & CLOUD SERVER (Col Span 2) -->
+      <div class="bento-card col-span-2">
         <div class="card-title"><span class="number">07</span> Cloud Server & Leaflet.js Web Dashboard</div>
         <div class="content-text" contenteditable="true">
           <p>
@@ -770,22 +792,22 @@
             <li><strong>Real-Time 2-Second Polling (`2000 ms`):</strong> Live status indicators for GPS Fix (`#68d391`), vehicle velocity, protection status, and horn state (`📢 Đang kêu`).</li>
             <li><strong>Low Cellular Footprint:</strong> Highly optimized payloads consume only <strong>~10 MB – 40 MB per day</strong>, allowing continuous 24/7 telemetry on basic SIM plans.</li>
           </ul>
+        </div>
 
-          <!-- Dashboard Screenshot Upload Box -->
-          <div class="image-box" onclick="triggerUpload(this)" style="min-height: 220px;">
-            <input type="file" accept="image/*" onchange="previewImage(this, event)">
-            <div class="placeholder-text">
-              <span class="icon">💻</span>
-              <strong>Click to upload Web Dashboard Screenshot</strong>
-              <span>Shows Leaflet.js Map, Auto-Follow controls, and Remote Arming cards</span>
-            </div>
-            <img src="" alt="Web Dashboard">
+        <!-- Dashboard Screenshot Upload Box -->
+        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 220px;">
+          <input type="file" accept="image/*" onchange="previewImage(this, event)">
+          <div class="placeholder-text">
+            <span class="icon">💻</span>
+            <strong>Click to upload Web Dashboard Screenshot</strong>
+            <span>Shows Leaflet.js Map, Auto-Follow controls, and Remote Arming cards</span>
           </div>
+          <img src="" alt="Web Dashboard">
         </div>
       </div>
 
-      <!-- CARD 8: RESULTS, VERIFICATION & FUTURE WORK (Col 12 - Full Width) -->
-      <div class="bento-card col-span-12">
+      <!-- CARD 8: RESULTS, VERIFICATION & FUTURE WORK (Col Span 3 - Full Width) -->
+      <div class="bento-card col-span-3">
         <div class="card-title"><span class="number">08</span> Experimental Verification, Key Results & Future Work</div>
         <div class="content-text" contenteditable="true" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
           <div>
