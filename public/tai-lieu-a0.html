@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Liệu Giải Thích Chi Tiết & Bản Chất Kỹ Thuật Poster A0 — GPS411</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --bg-page: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Sticky Control Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .toolbar-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--accent-cyan);
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-download:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      transform: translateY(-1px);
+    }
+
+    /* Document Container */
+    .doc-container {
+      max-width: 960px;
+      margin: 30px auto 60px auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 48px 60px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.3;
+      margin-bottom: 10px;
+      border-bottom: 2px solid var(--accent-cyan);
+      padding-bottom: 16px;
+    }
+
+    h1 span {
+      display: block;
+      font-size: 1.15rem;
+      color: var(--accent-emerald);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: var(--accent-cyan);
+      margin-top: 40px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: var(--accent-emerald);
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    h4 {
+      font-size: 1.08rem;
+      color: var(--accent-amber);
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    p, li {
+      font-size: 1rem;
+      color: #e2e8f0;
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    li { margin-bottom: 6px; }
+
+    strong { color: #fff; font-weight: 700; }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0,0,0,0.35);
+      color: var(--accent-cyan);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: rgba(0,0,0,0.45);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent-cyan);
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(0,0,0,0.4);
+      color: var(--accent-cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+    .highlight-box {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--accent-emerald);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .highlight-box.cyan {
+      background: rgba(56, 189, 248, 0.1);
+      border-left-color: var(--accent-cyan);
+    }
+
+    /* Print / PDF Export Styling */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .toolbar { display: none !important; }
+      .doc-container {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        max-width: 100% !important;
+      }
+      h1, h2, h3, h4, strong { color: #000 !important; }
+      h1 { border-bottom-color: #000 !important; }
+      h2 { border-bottom-color: #ccc !important; }
+      p, li, th, td { color: #222 !important; }
+      code { background: #eee !important; color: #000 !important; border: 1px solid #ccc; }
+      pre { background: #f8f9fa !important; color: #000 !important; border: 1px solid #bbb !important; }
+      th { background: #e9ecef !important; color: #000 !important; border-bottom: 2px solid #000 !important; }
+      table, td { border-color: #ccc !important; }
+      .highlight-box { background: #f1f5f9 !important; border-left-color: #0f172a !important; color: #000 !important; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">📖 GPS411 — TÀI LIỆU GIẢI THÍCH CHI TIẾT POSTER A0 & BẢN CHẤT KỸ THUẬT</div>
+    <button class="btn-download" onclick="downloadPDF()">📥 Tải Về File PDF (Chuẩn A4 In Ấn)</button>
+  </div>
+
+  <!-- Document Content -->
+  <div class="doc-container" id="docContent">
+    <h1>
+      TÀI LIỆU GIẢI THÍCH CHI TIẾT & BẢN CHẤT KỸ THUẬT POSTER A0
+      <span>Đồ án: GPS411 — IoT Motorcycle Anti-Theft & Real-Time Cellular Tracking System • MIP201 FPTU</span>
+    </h1>
+
+    <div class="highlight-box cyan">
+      <strong>🎯 Mục đích tài liệu:</strong> Bóc tách dịch nghĩa từng dòng câu chữ tiếng Anh trên Poster A0 và giải thích sâu sắc bản chất kỹ thuật điện tử - viễn thông - vi điều khiển (Đặc biệt là cơ chế <strong>HTTP Session Reuse 14 bước</strong>). Giúp nhóm nắm vững 100% kiến thức lõi để tự tin trả lời phản biện trước Hội đồng bảo vệ.
+    </div>
+
+    <h2>PHẦN 1: GIẢI THÍCH CHI TIẾT MỤC 01 ĐẾN MỤC 04</h2>
+
+    <h3>MỤC 01: EXECUTIVE SUMMARY & KEYWORDS (Tóm tắt tổng quan & Từ khóa)</h3>
+    <p><strong>🔹 Câu 1:</strong> <em>"An advanced, end-to-end IoT motorcycle security system combining real-time positioning and a deterministic multi-stage escalation state machine using an STM32F411 microcontroller."</em></p>
+    <ul>
+      <li><strong>Dịch:</strong> Một hệ thống bảo vệ xe máy IoT tiên tiến, toàn diện từ đầu đến cuối (<code>end-to-end</code>), kết hợp định vị thời gian thực (<code>real-time positioning</code>) và máy trạng thái leo thang nhiều cấp định hướng (<code>deterministic multi-stage escalation state machine</code>) sử dụng vi điều khiển <strong>STM32F411</strong>.</li>
+      <li><strong>Bản chất kỹ thuật:</strong> <code>End-to-end</code> nghĩa là nhóm tự xây dựng trọn vẹn từ mạch phần cứng $\rightarrow$ truyền tải 4G $\rightarrow$ Cloud Server $\rightarrow$ Web/App. <code>Deterministic multi-stage escalation</code> là thuật toán xử lý chấn động chính xác theo tầng: chạm nhẹ báo còi ngắn (Cấp 1), chạm mạnh liên tục mới hú còi 60s (Cấp 2), không báo động nhầm.</li>
+    </ul>
+
+    <p><strong>🔹 Câu 2:</strong> <em>"The system parses high-precision coordinates and velocity from a u-blox NEO-7M GPS receiver and senses mechanical disturbances via an SW-420 vibration sensor."</em></p>
+    <ul>
+      <li><strong>Dịch:</strong> Hệ thống phân tích/bóc tách (<code>parses</code>) các tọa độ (<code>coordinates</code>) và vận tốc (<code>velocity</code>) độ chính xác cao từ bộ thu <strong>u-blox NEO-7M GPS</strong>, đồng thời cảm nhận các nhiễu loạn cơ học (<code>mechanical disturbances</code>) thông qua <strong>cảm biến rung chấn SW-420</strong>.</li>
+      <li><strong>Bản chất kỹ thuật:</strong> Mạch GPS gửi chuỗi chuẩn NMEA-0183 (<code>$GPRMC,...</code>). Code C trên STM32 thực hiện bóc tách (<code>parse</code>) để lấy số vĩ độ, kinh độ và tốc độ xe.</li>
+    </ul>
+
+    <p><strong>🔹 Câu 3:</strong> <em>"Cellular telemetry is executed by a SIMCom A7680C 4G LTE module, transmitting JSON payloads to a cloud-hosted Node.js/Render REST API utilizing optimized HTTP Session Reuse."</em></p>
+    <ul>
+      <li><strong>Dịch:</strong> Quá trình đo đạc từ xa qua mạng di động (<code>cellular telemetry</code>) được thực hiện bởi <strong>module SIMCom A7680C 4G LTE</strong>, truyền tải các gói dữ liệu JSON (<code>JSON payloads</code>) lên <strong>API REST viết bằng Node.js</strong> lưu trữ trên đám mây <strong>Render</strong>, sử dụng kỹ thuật Tái sử dụng phiên HTTP (<code>HTTP Session Reuse</code>) đã được tối ưu hóa.</li>
+      <li><strong>Bản chất kỹ thuật:</strong> Thay vì tạo kết nối SSL/TLS lại từ đầu mỗi lần gửi tốn 15-20s, mạch giữ nguyên phiên làm việc (<code>REUSE</code>), giúp tốc độ gửi giảm xuống chỉ còn <strong>~3–5 giây</strong>.</li>
+    </ul>
+
+    <p><strong>🔹 Câu 4:</strong> <em>"A responsive Leaflet.js web dashboard delivers live tracking with auto-follow, remote arming/disarming, and instant emergency horn overrides."</em></p>
+    <ul>
+      <li><strong>Dịch:</strong> Một trang quản trị web linh hoạt/thích ứng (<code>responsive</code>) sử dụng thư viện bản đồ <strong>Leaflet.js</strong> cung cấp khả năng theo dõi trực tiếp với tính năng tự động bám theo (<code>auto-follow</code>), khóa/mở khóa xe từ xa (<code>remote arming/disarming</code>) và lập tức ghi đè còi báo động khẩn cấp (<code>emergency horn overrides</code>).</li>
+    </ul>
+
+    <h3>MỤC 02: PROBLEM STATEMENT & SOLUTION (Vấn đề & Giải pháp)</h3>
+    <p><strong>🔹 Nhược điểm thị trường:</strong> Còi chống trộm bán sẵn dễ báo động giả khi mưa lớn/ai chạm nhẹ (<code>False alarms</code>); trong khi GPS độc lập thì chậm trễ và không có còi hú răn đe vật lý (<code>Lack physical deterrents</code>).</p>
+    <p><strong>🔹 Giải pháp của GPS411:</strong></p>
+    <ul>
+      <li><strong>Deterministic Edge Defense & Smart False-Alarm Filtering:</strong> Xử lý chấn động ngay tại mạch biên (STM32) trong vài mili-giây với hai cấp độ <code>ALERT_L1</code> vs <code>ALERT_L2</code>, loại bỏ 100% báo động giả.</li>
+      <li><strong>Low-Latency Cellular Telemetry:</strong> Duy trì phiên kết nối HTTP dai dẳng giúp giảm thời gian viễn trắc tới hơn 60%, cập nhật vị trí tức thì.</li>
+    </ul>
+
+    <h3>MỤC 03 & 04: KIẾN TRÚC & THÔNG SỐ PHẦN CỨNG</h3>
+    <ul>
+      <li><strong>Non-blocking super-loop (<code>while(1)</code>):</strong> Không dùng RTOS cồng kềnh, hệ thống dùng bộ đếm mili-giây <code>HAL_GetTick()</code> để chạy song song nhiều tác vụ (GPS, 4G, chấn động) mà không bao giờ dùng lệnh <code>HAL_Delay()</code> gây đơ chip.</li>
+      <li><strong>Phân luồng USART:</strong> <code>USART1 (9600 baud)</code> chuyên đọc GPS NEO-7M; <code>USART2 (115200 baud)</code> chuyên giao tiếp lệnh AT với mạch 4G A7680C.</li>
+      <li><strong>Chống sụt áp (Surge Protection):</strong> Khi phát sóng 4G, mạch rút dòng tới <strong>2A peak burst</strong>. Nhóm dùng nguồn riêng <code>Battery Shield V3</code> cho 4G/còi và LDO 3.3V cho STM32 để chống sập nguồn (<code>Brown-out reset</code>).</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h2>PHẦN 2: GIẢI THÍCH CHI TIẾT MỤC 05 ĐẾN MỤC 08</h2>
+
+    <h3>MỤC 05: MÁY TRẠNG THÁI & LỌC BÁO ĐỘNG NHẦM (`SMART FALSE-ALARM PREVENTION`)</h3>
+    <pre>
+       [TRACKING] &lt;--(Overspeed &gt;60km/h)--&gt; [Beep Warning]
+           |
+      (Lock / Arm)
+           v
+       [STANDBY]  &lt;--(Single Shock Sensed)--&gt; [ALERT_L1 (Beep Warning)]
+                                                    |
+                                      (Repeated inside 5s window)
+                                                    v
+                                            [ALERT_L2 (Full Siren)]</pre>
+    <div class="highlight-box">
+      <strong>🛡️ Thuật toán Cửa sổ thời gian 2 tầng (`Two-Tier Time-Window Algorithm`):</strong>
+      <ol style="margin-top:8px; margin-bottom:0;">
+        <li><strong>Va quệt vô tình (<code>ALERT_L1</code>):</strong> 1 xung chấn động duy nhất chỉ kích hoạt tiếng bíp ngắn lịch sự (200ms ON / 800ms OFF) nhắc nhở, đồng thời mở cửa sổ đếm 5 giây.</li>
+        <li><strong>Trộm cạy phá thật (<code>ALERT_L2</code>):</strong> Trong 5 giây tiếp theo, nếu số lần rung vượt ngưỡng (<code>vib_count >= L1_TO_L2_COUNT</code>), hệ thống xác nhận trộm thật và hú còi 60 giây.</li>
+        <li><strong>Cúp còi tức thì (<code>Remote Cutoff</code>):</strong> Chủ xe bấm nút trên Web Dashboard tắt còi active siren trong dưới 4 giây mà không tắt định vị.</li>
+      </ol>
+    </div>
+
+    <h3>MỤC 06: HTTP SESSION REUSE (TÁI SỬ DỤNG PHIÊN HTTP)</h3>
+    <p>Thông thường gửi HTTP POST qua 4G mất ~20s vì phải thương lượng lại bảo mật SSL/TLS (`INIT -> SSL -> POST -> TERM`). Nhóm áp dụng <strong>Persistent HTTP Session Reuse</strong>:</p>
+    <ul>
+      <li><strong>Lần gửi đầu (`First Cycle - POST`):</strong> Chạy trọn vẹn 14 bước thiết lập.</li>
+      <li><strong>Lần gửi tiếp theo (`Reused Cycles - REUSE`):</strong> Giữ nguyên phiên làm việc trong RAM, nhảy thẳng đến bước 9 (`DATA -> BODY -> ACTION -> READ -> DONE`).</li>
+      <li><strong>Hiệu suất (`Performance Gain`):</strong> Thời gian giảm từ <strong>~20s xuống còn ~3–5s</strong>.</li>
+    </ul>
+
+    <h3>MỤC 07 & 08: CLOUD SERVER, WEB DASHBOARD & KẾT QUẢ THỰC NGHIỆM</h3>
+    <ul>
+      <li><strong>Auto-Follow (panTo) thông minh:</strong> Bản đồ bám theo xe, tự động nhường quyền điều khiển khi người dùng kéo tay để xem phố và hiện nút nhả về trung tâm.</li>
+      <li><strong>Dung lượng 4G siêu tiết kiệm:</strong> Gói JSON nhỏ nhẹ giúp xe chạy 24/7 chỉ tốn khoảng <strong>10 MB đến 40 MB data / ngày</strong>.</li>
+      <li><strong>Kết quả kiểm chứng:</strong> Độ trễ thực tế ~3-5s, loại bỏ 100% báo động giả.</li>
+      <li><strong>Hướng phát triển (Roadmap):</strong> Nâng cấp lên giao thức <strong>MQTT / WebSockets</strong> độ trễ dưới 1 giây; Hàng rào địa lý gửi tin nhắn <strong>SMS Fallback</strong> khi mất mạng; Đo điện áp bình ắc-quy qua <strong>ADC1 (PB0)</strong> cảnh báo hết điện.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h2>PHẦN 3: PHÂN TÍCH CHUYÊN SÂU 14 BƯỚC LỆNH AT & CƠ CHẾ REUSE</h2>
+
+    <h3>🍔 VÍ DỤ ĐỜI THƯỜNG: GỌI ĐIỆN ĐẶT CƠM VS GIỮ ĐƯỜNG DÂY</h3>
+    <p>Tưởng tượng việc gửi tọa độ GPS qua 4G giống như việc gọi điện thoại cho quán cơm để đặt món:</p>
+    <ul>
+      <li><strong>Cách thông thường (14 bước mỗi lần):</strong> Mở khóa $\rightarrow$ Mở danh bạ $\rightarrow$ Tìm số $\rightarrow$ Bấm gọi $\rightarrow$ Chờ nối máy $\rightarrow$ Nhấc máy $\rightarrow$ Chào hỏi $\rightarrow$ Xác nhận địa chỉ $\rightarrow$ <strong>Đọc món ăn muốn đặt</strong> $\rightarrow$ <strong>Quán xác nhận</strong> $\rightarrow$ <strong>Quán báo giá</strong> $\rightarrow$ Cảm ơn $\rightarrow$ <strong>Cúp máy</strong> $\rightarrow$ Khóa máy. Mỗi lần tốn <strong>20 giây</strong>.</li>
+      <li><strong>Cách tối ưu của GPS411 (`HTTP Session Reuse`):</strong> Lần đầu làm đủ bước để nối máy. Khi xong, <strong>KHÔNG CÚP MÁY</strong> mà giữ nguyên đường dây. 3 giây sau đặt thêm món, bạn <strong>bỏ qua bước 1 đến 8</strong>, nhảy thẳng vào bước 9: *"Anh ơi cho thêm 1 cơm sườn!"* $\rightarrow$ Đặt món siêu tốc trong <strong>3 giây</strong>!</li>
+    </ul>
+
+    <h3>💻 BẢNG CHI TIẾT 14 BƯỚC LỆNH AT TRONG CODE C TRÊN STM32</h3>
+    
+    <h4>🔴 GIAI ĐOẠN 1: Dọn dẹp & Khởi tạo bộ máy bảo mật SSL (Bước 1 $\rightarrow$ 3)</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Lệnh AT STM32 gửi cho mạch 4G</th>
+            <th>Giải thích bản chất kỹ thuật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td><code>AT+HTTPTERM</code></td>
+            <td>Dừng/dọn dẹp các kết nối HTTP cũ (nếu có bị treo trước đó).</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td><code>AT+CSSLCFG="sslversion",0,4</code></td>
+            <td>Cấu hình bật bảo mật SSL/TLS (vì Server Render dùng <code>HTTPS</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td><code>AT+CSSLCFG="authmode",0,0`</td>
+            <td>Tắt xác thực chứng chỉ rườm rà để kết nối nhanh hơn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>🟡 GIAI ĐOẠN 2: Khởi tạo dịch vụ HTTP & Điền địa chỉ Server (Bước 4 $\rightarrow$ 8)</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Lệnh AT STM32 gửi cho mạch 4G</th>
+            <th>Giải thích bản chất kỹ thuật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>4</strong></td>
+            <td><code>AT+HTTPINIT</code></td>
+            <td><strong>Khởi động dịch vụ HTTP</strong> trong bộ nhớ RAM của mạch A7680C.</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td><code>AT+HTTPPARA="CID",1</code></td>
+            <td>Chọn cấu hình mạng 4G LTE (<code>APN Profile ID = 1</code>) để ra Internet.</td>
+          </tr>
+          <tr>
+            <td><strong>6</strong></td>
+            <td><code>AT+HTTPPARA="URL","https://gps411-server..."</code></td>
+            <td>Điền <strong>địa chỉ URL máy chủ Cloud Render</strong> của nhóm.</td>
+          </tr>
+          <tr>
+            <td><strong>7</strong></td>
+            <td><code>AT+HTTPPARA="CONTENT","application/json"</code></td>
+            <td>Báo cho Server biết: *"Tôi chuẩn bị gửi lên dữ liệu dạng JSON nhé"*.</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td><code>AT+HTTPPARA="USERDATA","User-Agent: STM32"</code></td>
+            <td>Đặt tên định danh cho thiết bị (<code>Header</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.9rem; color:var(--accent-amber);">*(⏳ Lưu ý: Khi mạch 4G thực hiện từ Bước 1 đến Bước 8, nó phải thiết lập mạng và xác thực bảo mật SSL với máy chủ Render ở Mỹ, nên mất khoảng <strong>8 đến 12 giây</strong>!)*</p>
+
+    <h4>🟢 GIAI ĐOẠN 3: Đổ dữ liệu JSON & Bấm nút gửi (`POST`) (Bước 9 $\rightarrow$ 12)</h4>
+    <p style="color:var(--accent-emerald); font-weight:700;">👉 ĐÂY CHÍNH LÀ TRỌNG TÂM: TỪ LẦN THỨ 2 TRỞ ĐI, CODE CHỈ CHẠY 4 BƯỚC NÀY!</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Lệnh AT STM32 gửi cho mạch 4G</th>
+            <th>Giải thích bản chất kỹ thuật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>9</strong></td>
+            <td><code>AT+HTTPDATA=120,10000</code></td>
+            <td>Báo mạch 4G: *"Tôi chuẩn bị nạp vào <strong>120 byte</strong> chữ JSON, hãy đợi tôi nạp trong 10 giây"* $\rightarrow$ Mạch báo lại <code>DOWNLOAD</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>10</strong></td>
+            <td><code>{"lat":10.82,"speed":35.4,"state":"STANDBY",...}</code></td>
+            <td>STM32 bơm chuỗi JSON chứa tọa độ GPS và trạng thái xe qua chân TX/RX vào mạch 4G $\rightarrow$ Mạch báo <code>OK</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>11</strong></td>
+            <td><code>AT+HTTPACTION=1</code></td>
+            <td><strong>RA LỆNH GỬI (Action 1 = HTTP POST)!</strong> Mạch 4G phát sóng bắn gói JSON lên trạm BTS $\rightarrow$ Cloud nhận được và trả lời về <code>+HTTPACTION: 1,200,18</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>12</strong></td>
+            <td><code>AT+HTTPREAD=0,18</code></td>
+            <td>STM32 đọc 18 byte từ Cloud trả về (chính là chuỗi <code>{"cmd":"HORN_OFF"}</code> để xe biết đường tắt còi hoặc khóa xe).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>🟣 GIAI ĐOẠN 4: Đóng kết nối / Ngắt phiên (Bước 13 $\rightarrow$ 14)</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Bước</th>
+            <th>Lệnh AT STM32 gửi cho mạch 4G</th>
+            <th>Giải thích bản chất kỹ thuật</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>13</strong></td>
+            <td><code>AT+HTTPTERM</code></td>
+            <td><strong>Hủy/Đóng kết nối HTTP</strong>, xóa địa chỉ URL khỏi RAM mạch 4G.</td>
+          </tr>
+          <tr>
+            <td><strong>14</strong></td>
+            <td><code>AT+CSSLCFG... (Close)</code></td>
+            <td>Đóng phiên bảo mật SSL.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>🎤 KỊCH BẢN TRẢ LỜI HỘI ĐỒNG BẢO VỆ VỀ MỤC 06</h3>
+    <div class="highlight-box">
+      <p><strong>❓ Hội đồng hỏi:</strong> <em>"Em hãy giải thích rõ cơ chế <code>HTTP Session Reuse</code> ở Mục 06 cho thầy nghe!"</em></p>
+      <p><strong>👉 Sinh viên trả lời dõng dạc theo 3 ý sau:</strong></p>
+      <ol style="margin-top:8px; margin-bottom:0;">
+        <li><em>"Dạ thưa thầy, thông thường khi dùng module 4G A7680C để gửi HTTP POST, code phải chạy trọn vẹn <strong>14 lệnh AT</strong> từ lúc khởi tạo (<code>AT+HTTPINIT</code>), cấu hình URL (<code>AT+HTTPPARA</code>), gửi dữ liệu (<code>AT+HTTPACTION</code>) cho đến lúc cúp kết nối (<code>AT+HTTPTERM</code>). Mỗi lần gửi phải thiết lập lại bảo mật SSL từ đầu nên mất tới <strong>20 giây</strong>!"</em></li>
+        <li><em>"Nhóm em đã nghiên cứu và phát hiện ra sự lãng phí đó. Nên ở <strong>Lần gửi đầu tiên (First Cycle)</strong>, tụi em cho chạy từ Bước 1 đến Bước 12. Nhưng gửi xong, <strong>code của tụi em tuyệt đối KHÔNG gọi lệnh cúp kết nối <code>AT+HTTPTERM</code> (bỏ qua bước 13-14)</strong> mà giữ nguyên dịch vụ <code>HTTPINIT</code> và cấu hình URL trong RAM của mạch 4G."</em></li>
+        <li><em>"Khi xe di chuyển, cứ 3-5 giây sau cần gửi tọa độ mới (<strong>Reused Cycles</strong>), vì URL và kết nối SSL vẫn đang sống sẵn, code STM32 của tụi em <strong>bỏ qua hoàn toàn từ Bước 1 đến Bước 8</strong>, nhảy thẳng vào <strong>Bước 9 (<code>AT+HTTPDATA</code>) -> Bước 10 (Nạp JSON) -> Bước 11 (<code>AT+HTTPACTION=1</code>) và Bước 12 (<code>AT+HTTPREAD</code>)</strong>. Nhờ chỉ chạy đúng 4 lệnh cốt lõi này, độ trễ viễn trắc giảm kỷ lục xuống dưới <strong>3 đến 5 giây</strong>, giúp bản đồ theo dõi xe mượt mà gần như tức thì ạ!"</em></li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    function downloadPDF() {
+      // Direct print dialog / Save as PDF (Cleanest native A4 formatting)
+      window.print();
+    }
+  </script>
+</body>
+</html>
