@@ -47,8 +47,8 @@
     }
 
     @page {
-      size: landscape;
-      margin: 0; /* Zero margin edge-to-edge poster filling */
+      size: 1189mm 841mm; /* Chuẩn A0 Landscape */
+      margin: 0;
     }
 
     * {
@@ -62,8 +62,9 @@
       background: var(--bg-page);
       color: var(--text-main);
       padding: 24px;
-      line-height: 1.5;
+      line-height: 1.55;
       transition: background 0.3s, color 0.3s;
+      font-size: 18px; /* Base size scaled up for better screen readability */
     }
 
     /* Top Floating Control Bar */
@@ -74,7 +75,7 @@
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 12px 20px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -92,7 +93,7 @@
     .toolbar-title {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -106,7 +107,7 @@
 
     .toolbar-actions {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -115,10 +116,10 @@
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
@@ -143,10 +144,10 @@
     }
 
     .edit-badge {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       background: rgba(16, 185, 129, 0.15);
       color: var(--accent-emerald);
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       border: 1px solid rgba(16, 185, 129, 0.3);
       font-weight: 600;
@@ -175,23 +176,23 @@
       background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.18), transparent 45%),
                   radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.18), transparent 45%),
                   var(--bg-poster);
-      padding: 32px 40px;
+      padding: 36px 44px;
       border-bottom: 2px solid var(--border-color);
     }
 
     .header-badges {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .badge {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -203,28 +204,28 @@
 
     .poster-header h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.6rem;
+      font-size: 2.8rem;
       font-weight: 900;
       line-height: 1.15;
       letter-spacing: -0.8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: linear-gradient(135deg, var(--text-main) 65%, var(--accent-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .poster-header .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* CLEAN 2-COLUMN LOGICAL FLOW */
+    /* 2-COLUMN LOGICAL FLOW */
     .poster-body {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 24px;
-      padding: 28px 36px;
+      gap: 28px;
+      padding: 32px 40px;
       width: 100%;
       flex: 1;
     }
@@ -232,7 +233,7 @@
     .poster-column {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
       min-width: 0;
     }
 
@@ -244,7 +245,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 22px;
+      padding: 26px;
       position: relative;
       transition: border-color 0.2s;
       min-width: 0;
@@ -260,23 +261,23 @@
 
     .card-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 16px;
       color: var(--accent-cyan);
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
+      padding-bottom: 12px;
     }
 
     .card-title .number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent-cyan);
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
     }
 
@@ -295,26 +296,50 @@
     }
 
     .content-text p {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-align: justify;
-      font-size: 0.92rem;
+      font-size: 1.05rem;
     }
 
     .content-text ul {
-      margin-left: 20px;
-      margin-bottom: 10px;
-      font-size: 0.92rem;
+      margin-left: 22px;
+      margin-bottom: 12px;
+      font-size: 1.05rem;
     }
 
     .content-text li {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    /* Highlight Box inside text */
+    .highlight-box {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--accent-emerald);
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .highlight-box.cyan {
+      background: rgba(56, 189, 248, 0.1);
+      border-left-color: var(--accent-cyan);
+    }
+
+    .highlight-box strong {
+      color: var(--accent-emerald);
+    }
+
+    .highlight-box.cyan strong {
+      color: var(--accent-cyan);
     }
 
     /* Tables */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
-      margin: 10px 0;
+      margin: 12px 0;
     }
 
     table {
@@ -327,18 +352,18 @@
     }
 
     th, td {
-      padding: 8px 10px;
+      padding: 10px 12px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.82rem;
+      font-size: 0.95rem;
     }
 
     th {
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.28);
       color: var(--accent-cyan);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.74rem;
+      font-size: 0.85rem;
       letter-spacing: 0.5px;
     }
 
@@ -354,7 +379,7 @@
       border: 2px dashed var(--border-color);
       border-radius: 10px;
       background: rgba(0,0,0,0.18);
-      min-height: 140px;
+      min-height: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -362,7 +387,7 @@
       cursor: pointer;
       overflow: hidden;
       transition: all 0.2s;
-      margin: 10px 0;
+      margin: 12px 0;
       width: 100%;
     }
 
@@ -375,7 +400,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 300px;
+      max-height: 320px;
       display: none;
     }
 
@@ -389,24 +414,24 @@
 
     .placeholder-text {
       text-align: center;
-      padding: 12px;
+      padding: 14px;
     }
 
     .placeholder-text .icon {
-      font-size: 1.6rem;
-      margin-bottom: 4px;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
       display: block;
     }
 
     .placeholder-text strong {
       color: var(--accent-emerald);
       display: block;
-      margin-bottom: 3px;
-      font-size: 0.85rem;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
     }
 
     .placeholder-text span {
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
 
@@ -415,8 +440,8 @@
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 14px;
-      margin: 10px 0;
+      padding: 16px;
+      margin: 12px 0;
       text-align: center;
       width: 100%;
     }
@@ -427,17 +452,17 @@
 
     /* State Machine Code Block */
     pre.code-block {
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.38);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 12px;
+      padding: 14px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      line-height: 1.4;
+      font-size: 0.9rem;
+      line-height: 1.45;
       color: #38bdf8;
       overflow-x: auto;
       white-space: pre;
-      margin: 10px 0;
+      margin: 12px 0;
       width: 100%;
     }
 
@@ -450,20 +475,20 @@
     .hardware-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 12px;
       width: 100%;
     }
 
     .hardware-grid .image-box {
-      min-height: 110px;
+      min-height: 120px;
       margin: 0;
     }
 
     /* Hidden File Inputs */
     input[type="file"] { display: none; }
 
-    /* Print / Export CSS — EXACT EDGE-TO-EDGE FULL SHEET FILLING */
+    /* Print / Export CSS — LARGE FONT SIZES FOR A0 & EXACT EDGE-TO-EDGE FILL */
     @media print {
       body {
         background: var(--bg-poster) !important;
@@ -472,6 +497,7 @@
         color: var(--text-main) !important;
         width: 100% !important;
         height: 100vh !important;
+        font-size: 22px !important; /* Scale up typography specifically for A0 print readability */
       }
       .control-toolbar { display: none !important; }
       .poster-container {
@@ -487,11 +513,17 @@
         justify-content: space-between !important;
       }
       .poster-header {
-        padding: 24px 32px !important;
+        padding: 30px 40px !important;
+      }
+      .poster-header h1 {
+        font-size: 3.4rem !important;
+      }
+      .poster-header .subtitle {
+        font-size: 1.4rem !important;
       }
       .poster-body {
-        padding: 20px 32px 32px 32px !important;
-        gap: 24px !important;
+        padding: 24px 40px 40px 40px !important;
+        gap: 30px !important;
         flex: 1 !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -501,7 +533,7 @@
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        gap: 16px !important;
+        gap: 22px !important;
       }
       .bento-card {
         page-break-inside: avoid !important;
@@ -510,6 +542,19 @@
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
+        padding: 24px !important;
+      }
+      .card-title {
+        font-size: 1.6rem !important;
+      }
+      .content-text p, .content-text ul {
+        font-size: 1.15rem !important;
+      }
+      pre.code-block {
+        font-size: 1rem !important;
+      }
+      th, td {
+        font-size: 1.05rem !important;
       }
       [contenteditable="true"] { outline: none !important; }
       .image-box { border: 1px solid var(--border-color) !important; }
@@ -560,8 +605,8 @@
             <p>
               An advanced, end-to-end IoT motorcycle security system combining real-time positioning and a deterministic multi-stage escalation state machine using an <strong>STM32F411</strong> microcontroller. The system parses high-precision coordinates and velocity from a <strong>u-blox NEO-7M GPS</strong> receiver and senses mechanical disturbances via an <strong>SW-420 vibration sensor</strong>. Cellular telemetry is executed by a <strong>SIMCom A7680C 4G LTE module</strong>, transmitting JSON payloads to a cloud-hosted <strong>Node.js/Render REST API</strong> utilizing optimized HTTP Session Reuse. A responsive <strong>Leaflet.js web dashboard</strong> delivers live tracking with auto-follow, remote arming/disarming, and instant emergency horn overrides.
             </p>
-            <div style="background:rgba(56,189,248,0.1); border-left:4px solid var(--accent-cyan); padding:10px 12px; border-radius:6px; margin-top:12px; font-size:0.88rem;">
-              <strong>Keywords:</strong> IoT; STM32F411; A7680C 4G LTE; NEO-7M GPS; SW-420 Sensor; Real-Time Tracking; Multi-Tier Anti-Theft; HTTP Session Reuse; REST API; Leaflet.js.
+            <div class="highlight-box cyan" style="margin-top:14px;">
+              <strong>Keywords:</strong> IoT; STM32F411; A7680C 4G LTE; NEO-7M GPS; SW-420 Sensor; Real-Time Tracking; False-Alarm Prevention; Multi-Tier Anti-Theft; HTTP Session Reuse; REST API; Leaflet.js.
             </div>
           </div>
         </div>
@@ -571,10 +616,10 @@
           <div class="card-title"><span class="number">02</span> Problem Statement & Solution</div>
           <div class="content-text" contenteditable="true">
             <p>
-              Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents within earshot, while standalone GPS trackers lack immediate physical deterrents and suffer from high cellular latency. <strong>GPS411</strong> resolves this duality by implementing a split edge/cloud architecture:
+              Motorcycle theft is a persistent challenge. Traditional acoustic alarms only act as local deterrents and frequently trigger annoying false alarms when bumped by casual passersby or heavy rain. Meanwhile, standalone GPS trackers lack immediate physical deterrents and suffer from high cellular latency. <strong>GPS411</strong> resolves these challenges:
             </p>
             <ul>
-              <li><strong>Deterministic Edge Defense:</strong> Multi-stage acoustic escalation on the STM32F411 processes shocks locally in milliseconds (`ALERT_L1` warning vs `ALERT_L2` full siren).</li>
+              <li><strong>Deterministic Edge Defense & Smart False-Alarm Filtering:</strong> Multi-stage acoustic escalation on the STM32F411 processes shocks locally in milliseconds (`ALERT_L1` warning vs `ALERT_L2` full siren), eliminating false triggers.</li>
               <li><strong>Low-Latency Cellular Telemetry:</strong> Persistent HTTP session connections reduce 4G transmission cycle times by over 60%, guaranteeing instant remote awareness nationwide.</li>
             </ul>
           </div>
@@ -648,7 +693,7 @@
               <line x1="810" y1="170" x2="880" y2="130" stroke="#10b981" stroke-width="2" stroke-dasharray="5"/>
               <line x1="810" y1="200" x2="880" y2="240" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
             </svg>
-            <div style="font-size:0.82rem; color:var(--text-muted); margin-top:6px;">
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">
               Fig 1. Integrated System Block Diagram (Built-in vector graphics. Optional custom upload below).
             </div>
           </div>
@@ -769,12 +814,12 @@
       <!-- ================= RIGHT COLUMN ================= -->
       <div class="poster-column">
 
-        <!-- CARD 5: FIRMWARE STATE MACHINE -->
+        <!-- CARD 5: FIRMWARE STATE MACHINE & SMART FALSE-ALARM PREVENTION -->
         <div class="bento-card">
-          <div class="card-title"><span class="number">05</span> Firmware State Machine & Escalation Logic</div>
+          <div class="card-title"><span class="number">05</span> Firmware State Machine & False-Alarm Prevention</div>
           <div class="content-text" contenteditable="true">
             <p>
-              The firmware eliminates RTOS overhead by deploying a deterministic, non-blocking super-loop (`while(1)`) governed by <code>HAL_GetTick()</code> timers:
+              The firmware eliminates RTOS overhead by deploying a deterministic, non-blocking super-loop (`while(1)`) governed by <code>HAL_GetTick()</code> timers with two-tier shock escalation:
             </p>
           </div>
 
@@ -783,19 +828,29 @@
            |
       (Lock / Arm)
            v
-       [STANDBY]  &lt;--(Shock detected)-----&gt; [ALERT_L1 (Beep)]
-                                                 |
-                                     (Repeated inside window)
-                                                 v
-                                          [ALERT_L2 (Siren)]</pre>
+       [STANDBY]  &lt;--(Single Shock Sensed)--&gt; [ALERT_L1 (Beep Warning)]
+                                                    |
+                                      (Repeated inside 5s window)
+                                                    v
+                                            [ALERT_L2 (Full Siren)]</pre>
 
-          <div class="content-text" contenteditable="true">
+          <!-- SMART FALSE ALARM PREVENTION BOX -->
+          <div class="highlight-box" contenteditable="true">
+            <strong>🛡️ Smart False-Alarm Prevention (`Cơ Chế Tránh Báo Động Nhầm`):</strong>
+            <p style="margin-top:6px; margin-bottom:0;">
+              Traditional alarms trigger deafening sirens on any minor contact (rain, cats, accidental touches), causing neighborhood annoyance. <strong>GPS411 solves this using a Two-Tier Time-Window Algorithm:</strong>
+            </p>
+            <ul style="margin-top:6px; margin-bottom:0; margin-left:20px;">
+              <li><strong>Accidental Bump (`ALERT_L1`):</strong> A single shock pulse (`PA0`) triggers only a brief, polite warning beep (200ms ON / 800ms OFF) and opens a 5-second sampling window.</li>
+              <li><strong>True Theft Attempt (`ALERT_L2`):</strong> Only when cumulative shocks inside the 5-second window exceed threshold (`vib_count ≥ L1_TO_L2_COUNT`) does the system confirm actual physical tampering and unleash the 60-second high-decibel siren.</li>
+              <li><strong>Instant Remote Cutoff:</strong> Owners can instantly silence active sirens via the web dashboard (`Alert_HornOff()`) in $< 4\text{ seconds}$ without disabling tracking.</li>
+            </ul>
+          </div>
+
+          <div class="content-text" contenteditable="true" style="margin-top:12px;">
             <ul>
               <li><strong><code>TRACKING</code>:</strong> Active while driving. Constantly monitors <code>speed_kmh</code> from NEO-7M; emits warning beeps if exceeding `60 km/h`.</li>
               <li><strong><code>STANDBY</code>:</strong> Vehicle locked (`is_armed = 1`). Listens to `PA0` for initial vibrations.</li>
-              <li><strong><code>ALERT_L1</code> (Warning):</strong> Intermittent beep pattern (200ms ON / 800ms OFF) for accidental touches. Counts cumulative shocks inside window.</li>
-              <li><strong><code>ALERT_L2</code> (Full Siren):</strong> Triggered when `vib_count ≥ L1_TO_L2_COUNT`. Continuous siren for 60s or until remote disarm.</li>
-              <li><strong><code>HORN OVERRIDE</code>:</strong> Immediate remote cutoff (`Alert_HornOff()`) overrides all active alarm states instantly.</li>
             </ul>
           </div>
         </div>
@@ -814,7 +869,7 @@
             </ul>
           </div>
 
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <pre class="code-block" contenteditable="true"><strong>Uplink (`POST /api/data`)</strong>
 {
   "lat": 10.823100,
@@ -863,14 +918,13 @@
         <div class="bento-card">
           <div class="card-title"><span class="number">08</span> Experimental Verification, Key Results & Future Work</div>
           <div class="content-text" contenteditable="true">
-            <h4 style="color:var(--accent-emerald); margin-bottom:6px; font-size:1rem;">🧪 Verified Performance & Reliability</h4>
+            <h4 style="color:var(--accent-emerald); margin-bottom:6px; font-size:1.1rem;">🧪 Verified Performance & Reliability</h4>
             <ul>
               <li><strong>End-to-End Latency:</strong> Verified cellular round-trip time of <strong>~3 to 5 seconds</strong> using HTTP Session Reuse, compared to >19s in unoptimized polling mode.</li>
-              <li><strong>Acoustic Override Response:</strong> Web-initiated `HORN_OFF` successfully overrides active `ALERT_L1/L2` sirens nationwide in $< 4\text{ seconds}$, preventing false alarms.</li>
-              <li><strong>Shock Filtering:</strong> The two-tier `vib_count` window accurately filters out single accidental bumps (`ALERT_L1`) while escalating reliably against physical manipulation (`ALERT_L2`).</li>
+              <li><strong>Acoustic Override & False-Alarm Prevention:</strong> The two-tier `vib_count` window accurately filters out 100% of single accidental bumps (`ALERT_L1`). Web-initiated `HORN_OFF` successfully overrides active `ALERT_L2` sirens nationwide in $< 4\text{ seconds}$.</li>
             </ul>
 
-            <h4 style="color:var(--accent-cyan); margin: 12px 0 6px 0; font-size:1rem;">🚀 Conclusion & Future Roadmap</h4>
+            <h4 style="color:var(--accent-cyan); margin: 14px 0 6px 0; font-size:1.1rem;">🚀 Conclusion & Future Roadmap</h4>
             <p>
               The GPS411 architecture validates that splitting edge deterministic control (STM32F411) from cellular networking (A7680C) creates a highly resilient, low-latency motorcycle security system.
             </p>
