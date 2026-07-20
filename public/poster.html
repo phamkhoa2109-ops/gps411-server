@@ -261,14 +261,13 @@
 
     .poster-header h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       font-weight: 900;
-      line-height: 1.15;
-      letter-spacing: -0.8px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, var(--text-main) 65%, var(--accent-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #f8fafc;
+      text-shadow: 0 2px 15px rgba(56, 189, 248, 0.35);
     }
 
     .poster-header .subtitle {
@@ -561,8 +560,11 @@
     }
 
     .poster-container.exporting-mode .poster-header h1 {
-      font-size: 3.5rem !important;
-      margin-bottom: 12px !important;
+      font-size: 4.2rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 14px !important;
+      color: #f8fafc !important;
+      text-shadow: 0 3px 20px rgba(56, 189, 248, 0.45) !important;
     }
 
     .poster-container.exporting-mode .poster-header .subtitle {
@@ -784,19 +786,8 @@
             <line x1="810" y1="160" x2="880" y2="195" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
           </svg>
           <div style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">
-            Fig 1. Integrated System Block Diagram (Built-in vector graphics. Optional custom upload below).
+            Fig 1. Integrated System Block Diagram (Built-in vector graphics).
           </div>
-        </div>
-
-        <!-- Optional Custom Image Upload Box -->
-        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 85px;">
-          <input type="file" accept="image/*" onchange="previewImage(this, event)">
-          <div class="placeholder-text">
-            <span class="icon">🖼️</span>
-            <strong>Click to upload custom Block Diagram Image (Optional)</strong>
-            <span>If you have your own diagram file, click here to replace/add it above</span>
-          </div>
-          <img src="" alt="Block Diagram">
         </div>
       </div>
 
