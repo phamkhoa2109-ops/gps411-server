@@ -456,8 +456,23 @@
       display: none;
     }
 
+    .image-box.has-image {
+      border: none !important;
+      background: transparent !important;
+      min-height: auto !important;
+      height: auto !important;
+      padding: 0 !important;
+    }
+
     .image-box.has-image img {
-      display: block;
+      display: block !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 320px !important;
+      object-fit: contain !important;
+      border-radius: 10px !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35) !important;
     }
 
     .image-box.has-image .placeholder-text {
@@ -641,6 +656,24 @@
     .poster-container.exporting-mode .image-box {
       min-height: 95px !important;
       margin: 8px 0 !important;
+    }
+
+    .poster-container.exporting-mode .image-box.has-image {
+      min-height: auto !important;
+      height: auto !important;
+      margin: 10px 0 !important;
+    }
+
+    .poster-container.exporting-mode .image-box.has-image img {
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 380px !important;
+      object-fit: contain !important;
+    }
+
+    .poster-container.exporting-mode .hardware-grid .image-box.has-image img {
+      max-height: 140px !important;
     }
   </style>
 </head>
