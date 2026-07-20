@@ -7,6 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- html2canvas and jsPDF for Direct High-Res A0 Export without Chrome Print Dialog -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     :root {
       --bg-page: #080d1a;
@@ -23,7 +28,6 @@
       --accent-rose: #f43f5e;
     }
 
-    /* Light Theme Variant */
     body.light-theme {
       --bg-page: #cbd5e1;
       --bg-poster: #ffffff;
@@ -37,25 +41,6 @@
       --accent-indigo: #4f46e5;
       --accent-amber: #d97706;
       --accent-rose: #e11d48;
-    }
-
-    /* EXACT COLOR PRINT GUARANTEE */
-    html, body, * {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-
-    /* DEFAULT A0 PORTRAIT (KHỔ DỌC: 841mm x 1189mm) */
-    @page {
-      size: 841mm 1189mm portrait;
-      margin: 0;
-    }
-
-    /* Landscape override class */
-    body.mode-landscape @page {
-      size: 1189mm 841mm landscape;
-      margin: 0;
     }
 
     * {
@@ -76,38 +61,36 @@
 
     /* Top Floating Control Bar */
     .control-toolbar {
-      max-width: 1080px;
+      max-width: 1120px;
       margin: 0 auto 20px auto;
-      background: rgba(30, 41, 59, 0.95);
+      background: rgba(30, 41, 59, 0.98);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 14px 24px;
+      border-radius: 14px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.45);
       position: sticky;
       top: 12px;
-      z-index: 999;
-    }
-
-    body.mode-landscape .control-toolbar {
-      max-width: 1440px;
+      z-index: 9999;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     body.light-theme .control-toolbar {
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     }
 
     .toolbar-title {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .toolbar-title span {
@@ -127,15 +110,15 @@
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .btn:hover {
@@ -144,13 +127,28 @@
       transform: translateY(-1px);
     }
 
-    .btn-primary {
+    .btn-export-pdf {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.35);
+    }
+
+    .btn-export-pdf:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.5);
+    }
+
+    .btn-export-png {
       background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
       color: #fff;
       border: none;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
     }
 
-    .btn-primary:hover {
+    .btn-export-png:hover {
       opacity: 0.95;
     }
 
@@ -164,10 +162,55 @@
       font-weight: 600;
     }
 
-    /* Poster Container - PORTRAIT A0 PROPORTION (1080px x 1527px on screen) */
+    /* Loading Overlay during Direct Export */
+    .export-loading-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(8, 13, 26, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .export-loading-overlay.active {
+      display: flex;
+    }
+
+    .spinner {
+      width: 60px; height: 60px;
+      border: 6px solid rgba(56, 189, 248, 0.2);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .export-loading-overlay h2 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #38bdf8, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .export-loading-overlay p {
+      color: #94a3b8;
+      font-size: 1.05rem;
+    }
+
+    /* Poster Container - PORTRAIT A0 PROPORTION (1080px wide screen layout) */
     .poster-container {
-      max-width: 1080px;
-      min-height: 1527px;
+      width: 1080px;
+      max-width: 100%;
       margin: 0 auto;
       background: var(--bg-poster);
       border: 1px solid var(--border-color);
@@ -176,11 +219,6 @@
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
-    }
-
-    body.mode-landscape .poster-container {
-      max-width: 1440px;
-      min-height: 1018px;
     }
 
     body.light-theme .poster-container {
@@ -193,7 +231,7 @@
       background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.18), transparent 45%),
                   radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.18), transparent 45%),
                   var(--bg-poster);
-      padding: 34px 40px;
+      padding: 36px 44px;
       border-bottom: 2px solid var(--border-color);
     }
 
@@ -201,11 +239,11 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .badge {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -221,7 +259,7 @@
 
     .poster-header h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.6rem;
+      font-size: 2.7rem;
       font-weight: 900;
       line-height: 1.15;
       letter-spacing: -0.8px;
@@ -232,17 +270,17 @@
     }
 
     .poster-header .subtitle {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* PORTRAIT 2-COLUMN GRID (Cards 03 and 08 span 2 columns across full width!) */
+    /* PORTRAIT 2-COLUMN GRID (Cards 03 and 08 span across full width) */
     .poster-body {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 22px;
-      padding: 28px 36px 36px 36px;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 32px 40px 40px 40px;
       width: 100%;
       flex: 1;
     }
@@ -259,12 +297,10 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 22px 24px;
+      padding: 26px;
       position: relative;
       transition: border-color 0.2s;
-      min-width: 0;
       width: 100%;
-      max-width: 100%;
       display: flex;
       flex-direction: column;
     }
@@ -275,23 +311,23 @@
 
     .card-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       color: var(--accent-cyan);
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
+      padding-bottom: 12px;
     }
 
     .card-title .number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent-cyan);
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
     }
 
@@ -310,29 +346,29 @@
     }
 
     .content-text p {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-align: justify;
-      font-size: 0.96rem;
+      font-size: 1rem;
     }
 
     .content-text ul {
-      margin-left: 20px;
-      margin-bottom: 10px;
-      font-size: 0.96rem;
+      margin-left: 22px;
+      margin-bottom: 12px;
+      font-size: 1rem;
     }
 
     .content-text li {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     /* Highlight Box inside text */
     .highlight-box {
       background: rgba(16, 185, 129, 0.1);
       border-left: 4px solid var(--accent-emerald);
-      padding: 12px 14px;
+      padding: 14px 16px;
       border-radius: 8px;
-      margin: 12px 0;
-      font-size: 0.94rem;
+      margin: 14px 0;
+      font-size: 0.98rem;
       line-height: 1.5;
     }
 
@@ -353,7 +389,7 @@
     .table-responsive {
       width: 100%;
       overflow-x: auto;
-      margin: 10px 0;
+      margin: 12px 0;
     }
 
     table {
@@ -366,10 +402,10 @@
     }
 
     th, td {
-      padding: 8px 10px;
+      padding: 10px 12px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.86rem;
+      font-size: 0.9rem;
     }
 
     th {
@@ -377,7 +413,7 @@
       color: var(--accent-cyan);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       letter-spacing: 0.5px;
     }
 
@@ -393,7 +429,7 @@
       border: 2px dashed var(--border-color);
       border-radius: 10px;
       background: rgba(0,0,0,0.18);
-      min-height: 140px;
+      min-height: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -401,7 +437,7 @@
       cursor: pointer;
       overflow: hidden;
       transition: all 0.2s;
-      margin: 10px 0;
+      margin: 12px 0;
       width: 100%;
     }
 
@@ -414,7 +450,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      max-height: 300px;
+      max-height: 320px;
       display: none;
     }
 
@@ -428,24 +464,24 @@
 
     .placeholder-text {
       text-align: center;
-      padding: 12px;
+      padding: 14px;
     }
 
     .placeholder-text .icon {
-      font-size: 1.6rem;
-      margin-bottom: 4px;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
       display: block;
     }
 
     .placeholder-text strong {
       color: var(--accent-emerald);
       display: block;
-      margin-bottom: 3px;
-      font-size: 0.88rem;
+      margin-bottom: 4px;
+      font-size: 0.92rem;
     }
 
     .placeholder-text span {
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
@@ -454,8 +490,8 @@
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 16px;
-      margin: 10px 0;
+      padding: 18px;
+      margin: 12px 0;
       text-align: center;
       width: 100%;
     }
@@ -469,14 +505,14 @@
       background: rgba(0,0,0,0.38);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 12px;
+      padding: 14px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       line-height: 1.45;
       color: #38bdf8;
       overflow-x: auto;
       white-space: pre;
-      margin: 10px 0;
+      margin: 12px 0;
       width: 100%;
     }
 
@@ -489,93 +525,125 @@
     .hardware-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 12px;
       width: 100%;
     }
 
     .hardware-grid .image-box {
-      min-height: 110px;
+      min-height: 120px;
       margin: 0;
     }
 
-    /* Hidden File Inputs */
     input[type="file"] { display: none; }
 
-    /* Print / Export CSS — EXACT VERTICAL PORTRAIT A0 FILL */
-    @media print {
-      body {
-        background: var(--bg-poster) !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        color: var(--text-main) !important;
-        width: 100% !important;
-        height: 100vh !important;
-        font-size: 20px !important;
-      }
-      .control-toolbar { display: none !important; }
-      .poster-container {
-        border: none !important;
-        box-shadow: none !important;
-        width: 100vw !important;
-        max-width: none !important;
-        min-height: 100vh !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-      }
-      .poster-header {
-        padding: 26px 36px !important;
-      }
-      .poster-header h1 {
-        font-size: 3rem !important;
-      }
-      .poster-body {
-        padding: 20px 36px 36px 36px !important;
-        gap: 20px !important;
-        flex: 1 !important;
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        align-items: stretch !important;
-      }
-      .bento-card {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        padding: 20px !important;
-      }
-      .card-title {
-        font-size: 1.4rem !important;
-      }
-      .content-text p, .content-text ul {
-        font-size: 1.05rem !important;
-      }
-      pre.code-block {
-        font-size: 0.9rem !important;
-      }
-      [contenteditable="true"] { outline: none !important; }
-      .image-box { border: 1px solid var(--border-color) !important; }
+    /* HIGH-RES EXPORT MODE CLASS (Applied temporarily by JS during export) */
+    .poster-container.exporting-mode {
+      width: 2480px !important;
+      max-width: 2480px !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .poster-container.exporting-mode .poster-header {
+      padding: 70px 90px !important;
+    }
+
+    .poster-container.exporting-mode .poster-header h1 {
+      font-size: 5.8rem !important;
+      margin-bottom: 24px !important;
+    }
+
+    .poster-container.exporting-mode .poster-header .subtitle {
+      font-size: 2.4rem !important;
+    }
+
+    .poster-container.exporting-mode .badge {
+      font-size: 1.6rem !important;
+      padding: 12px 26px !important;
+    }
+
+    .poster-container.exporting-mode .poster-body {
+      padding: 60px 80px 80px 80px !important;
+      gap: 46px !important;
+    }
+
+    .poster-container.exporting-mode .bento-card {
+      padding: 50px !important;
+      border-radius: 24px !important;
+    }
+
+    .poster-container.exporting-mode .card-title {
+      font-size: 2.8rem !important;
+      margin-bottom: 30px !important;
+      padding-bottom: 20px !important;
+    }
+
+    .poster-container.exporting-mode .card-title .number {
+      font-size: 1.8rem !important;
+      padding: 8px 18px !important;
+    }
+
+    .poster-container.exporting-mode .content-text p,
+    .poster-container.exporting-mode .content-text ul {
+      font-size: 2.1rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 24px !important;
+    }
+
+    .poster-container.exporting-mode .highlight-box {
+      font-size: 2rem !important;
+      padding: 28px 34px !important;
+      margin: 28px 0 !important;
+      border-left-width: 8px !important;
+    }
+
+    .poster-container.exporting-mode th,
+    .poster-container.exporting-mode td {
+      font-size: 1.8rem !important;
+      padding: 20px 24px !important;
+    }
+
+    .poster-container.exporting-mode th {
+      font-size: 1.6rem !important;
+    }
+
+    .poster-container.exporting-mode pre.code-block {
+      font-size: 1.7rem !important;
+      padding: 28px !important;
+      margin: 24px 0 !important;
+    }
+
+    .poster-container.exporting-mode .placeholder-text strong {
+      font-size: 1.8rem !important;
+    }
+
+    .poster-container.exporting-mode .placeholder-text span {
+      font-size: 1.5rem !important;
     }
   </style>
 </head>
-<body class="dark-theme mode-portrait">
+<body class="dark-theme">
+
+  <!-- Loading Overlay -->
+  <div class="export-loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <h2 id="loadingTitle">⏳ Đang tạo file PDF Khổ A0 Siêu Nét...</h2>
+    <p>Hệ thống đang dựng khung hình độ phân giải cực cao (2480px × 3508px) để ra tiệm in. Vui lòng đợi trong giây lát!</p>
+  </div>
 
   <!-- Floating Control Toolbar -->
   <div class="control-toolbar">
     <div class="toolbar-title">
-      <span>⚡ GPS411 BENTO POSTER (PORTRAIT A0)</span>
-      <div class="edit-badge">✎ Click text or boxes to edit directly</div>
+      <span>⚡ GPS411 BENTO POSTER (KHỔ DỌC A0)</span>
+      <div class="edit-badge">✎ Click trực tiếp vào chữ hoặc ô ảnh để chỉnh sửa</div>
     </div>
     <div class="toolbar-actions">
-      <button class="btn" onclick="toggleOrientation()">📐 Đổi Dọc/Ngang (<span id="ori-label">Khổ Dọc</span>)</button>
-      <button class="btn" onclick="toggleTheme()">🌓 Toggle Light/Dark</button>
-      <button class="btn" onclick="resetAll()">🔄 Reset Default</button>
-      <button class="btn btn-primary" onclick="window.print()">🖨️ Print PDF (1-Page Full Color)</button>
+      <button class="btn btn-export-pdf" onclick="exportToA0('pdf')">📥 Tải File PDF A0 (Chuẩn Ra Tiệm In)</button>
+      <button class="btn btn-export-png" onclick="exportToA0('png')">🖼️ Tải File Ảnh PNG A0 (High-Res)</button>
+      <button class="btn" onclick="toggleTheme()">🌓 Đổi Tối/Sáng</button>
+      <button class="btn" onclick="resetAll()">🔄 Đặt Lại Gốc</button>
     </div>
   </div>
 
@@ -605,7 +673,7 @@
           <p>
             An advanced, end-to-end IoT motorcycle security system combining real-time positioning and a deterministic multi-stage escalation state machine using an <strong>STM32F411</strong> microcontroller. The system parses high-precision coordinates and velocity from a <strong>u-blox NEO-7M GPS</strong> receiver and senses mechanical disturbances via an <strong>SW-420 vibration sensor</strong>. Cellular telemetry is executed by a <strong>SIMCom A7680C 4G LTE module</strong>, transmitting JSON payloads to a cloud-hosted <strong>Node.js/Render REST API</strong> utilizing optimized HTTP Session Reuse. A responsive <strong>Leaflet.js web dashboard</strong> delivers live tracking with auto-follow, remote arming/disarming, and instant emergency horn overrides.
           </p>
-          <div class="highlight-box cyan" style="margin-top:12px;">
+          <div class="highlight-box cyan" style="margin-top:14px;">
             <strong>Keywords:</strong> IoT; STM32F411; A7680C 4G LTE; NEO-7M GPS; SW-420 Sensor; Real-Time Tracking; False-Alarm Prevention; Multi-Tier Anti-Theft; HTTP Session Reuse; REST API; Leaflet.js.
           </div>
         </div>
@@ -636,7 +704,7 @@
 
         <!-- Built-in Vector Block Diagram -->
         <div class="svg-diagram-container">
-          <svg viewBox="0 0 1000 340" style="width:100%; height:auto; max-height:330px;">
+          <svg viewBox="0 0 1000 340" style="width:100%; height:auto; max-height:360px;">
             <defs>
               <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
@@ -693,13 +761,13 @@
             <line x1="810" y1="160" x2="880" y2="120" stroke="#10b981" stroke-width="2" stroke-dasharray="5"/>
             <line x1="810" y1="190" x2="880" y2="230" stroke="#818cf8" stroke-width="2" stroke-dasharray="5"/>
           </svg>
-          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">
+          <div style="font-size:0.88rem; color:var(--text-muted); margin-top:8px;">
             Fig 1. Integrated System Block Diagram (Built-in vector graphics. Optional custom upload below).
           </div>
         </div>
 
         <!-- Optional Custom Image Upload Box -->
-        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 110px;">
+        <div class="image-box" onclick="triggerUpload(this)" style="min-height: 120px;">
           <input type="file" accept="image/*" onchange="previewImage(this, event)">
           <div class="placeholder-text">
             <span class="icon">🖼️</span>
@@ -913,13 +981,13 @@
       <div class="bento-card col-span-2">
         <div class="card-title"><span class="number">08</span> Experimental Verification, Key Results & Future Work</div>
         <div class="content-text" contenteditable="true">
-          <h4 style="color:var(--accent-emerald); margin-bottom:6px; font-size:1.1rem;">🧪 Verified Performance & Reliability</h4>
+          <h4 style="color:var(--accent-emerald); margin-bottom:8px; font-size:1.15rem;">🧪 Verified Performance & Reliability</h4>
           <ul>
             <li><strong>End-to-End Latency:</strong> Verified cellular round-trip time of <strong>~3 to 5 seconds</strong> using HTTP Session Reuse, compared to >19s in unoptimized polling mode.</li>
             <li><strong>Acoustic Override & False-Alarm Prevention:</strong> The two-tier `vib_count` window accurately filters out 100% of single accidental bumps (`ALERT_L1`). Web-initiated `HORN_OFF` successfully overrides active `ALERT_L2` sirens nationwide in $< 4\text{ seconds}$.</li>
           </ul>
 
-          <h4 style="color:var(--accent-cyan); margin: 14px 0 6px 0; font-size:1.1rem;">🚀 Conclusion & Future Roadmap</h4>
+          <h4 style="color:var(--accent-cyan); margin: 16px 0 8px 0; font-size:1.15rem;">🚀 Conclusion & Future Roadmap</h4>
           <p>
             The GPS411 architecture validates that splitting edge deterministic control (STM32F411) from cellular networking (A7680C) creates a highly resilient, low-latency motorcycle security system.
           </p>
@@ -934,16 +1002,68 @@
     </div>
   </div>
 
-  <!-- Javascript for Interactivity & Orientation Toggle -->
+  <!-- DIRECT A0 HIGH-RES EXPORT & INTERACTIVITY ENGINE -->
   <script>
-    // Toggle between Portrait (Khổ dọc) and Landscape (Khổ ngang)
-    function toggleOrientation() {
-      const isLandscape = document.body.classList.toggle('mode-landscape');
-      const label = document.getElementById('ori-label');
-      if (isLandscape) {
-        label.innerText = 'Khổ Ngang';
+    async function exportToA0(format) {
+      const overlay = document.getElementById('loadingOverlay');
+      const title = document.getElementById('loadingTitle');
+      const poster = document.getElementById('poster');
+
+      if (format === 'pdf') {
+        title.innerText = '⏳ Đang dựng & tải File PDF Khổ Dọc A0 (841mm × 1189mm)...';
       } else {
-        label.innerText = 'Khổ Dọc';
+        title.innerText = '⏳ Đang xuất File Ảnh PNG High-Res Khổ A0...';
+      }
+      overlay.classList.add('active');
+
+      // Allow DOM repaint before heavy rendering
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // Temporarily scale poster container to exact master poster resolution (2480px width)
+      poster.classList.add('exporting-mode');
+
+      try {
+        const canvas = await html2canvas(poster, {
+          scale: 1.5, // Produces 3720px wide image, ultra crisp for large plotting
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: document.body.classList.contains('light-theme') ? '#ffffff' : '#0f172a',
+          logging: false
+        });
+
+        if (format === 'png') {
+          // Download directly as High-Res PNG
+          const imgData = canvas.toDataURL('image/png', 1.0);
+          const link = document.createElement('a');
+          link.download = 'GPS411_Poster_A0_Chuan_In.png';
+          link.href = imgData;
+          link.click();
+        } else {
+          // Download as exact A0 Portrait PDF using jsPDF
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a0' // 841mm x 1189mm
+          });
+
+          const imgData = canvas.toDataURL('image/jpeg', 0.98);
+          const pdfWidth = pdf.internal.pageSize.getWidth(); // 841
+          const pdfHeight = pdf.internal.pageSize.getHeight(); // 1189
+          
+          // Calculate height proportionally to fill sheet while maintaining aspect ratio
+          const imgProps = pdf.getImageProperties(imgData);
+          const renderedHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+          pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedHeight);
+          pdf.save('GPS411_Poster_A0_Chuan_In.pdf');
+        }
+      } catch (err) {
+        console.error('Export error:', err);
+        alert('❌ Có lỗi xảy ra khi xuất file: ' + err.message);
+      } finally {
+        poster.classList.remove('exporting-mode');
+        overlay.classList.remove('active');
       }
     }
 
